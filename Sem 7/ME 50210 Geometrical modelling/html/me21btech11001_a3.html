@@ -1,0 +1,342 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>me21btech11001_a3</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2024-09-16"><meta name="DC.source" content="me21btech11001_a3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">%Abhishek Ghosh</span>
+<span class="comment">%ME21BTECH11001</span>
+<span class="comment">%Question 2</span>
+
+
+
+
+<span class="keyword">function</span> B_Spline_Plot()
+    <span class="comment">% Define control points</span>
+    control_points = [0 1; 2 6; 4 8; 5 2];
+    n = 3; <span class="comment">% n + 1 is the number of control points</span>
+
+    <span class="comment">% Plot separately</span>
+    figure;
+    hold <span class="string">on</span>;
+    <span class="comment">% a) part</span>
+    n = 3;
+    k = 4;
+    plotBSpline(control_points, n, k, <span class="string">'r'</span>, <span class="string">'B-Spline: n=3, k=4'</span>);
+    plot(control_points(:,1), control_points(:,2), <span class="string">'o--'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Control Points'</span>);
+    legend;
+    title(<span class="string">'B-Spline with n = 3'</span>);
+    xlabel(<span class="string">'X-axis'</span>);
+    ylabel(<span class="string">'Y-axis'</span>);
+    hold <span class="string">off</span>;
+
+
+    <span class="comment">% b) part</span>
+    <span class="comment">%n = 3 &amp; 4</span>
+    figure;
+    hold <span class="string">on</span>;
+    <span class="comment">% n = 3</span>
+    control_points = [0 1; 2 6; 4 8; 5 2];
+    k = 4;
+    n = 3;
+    plotBSpline(control_points, n, k, <span class="string">'r'</span>, <span class="string">'B-Spline: n=3, k=4'</span>);
+
+    <span class="comment">% n = 4</span>
+    control_points = [0 1; 2 6;2 6; 4 8; 5 2];
+    k = 4;
+    n = 4;
+    plotBSpline(control_points, n, k, <span class="string">'b'</span>, <span class="string">'B-Spline: n=4, k=4'</span>);
+
+    plot(control_points(:,1), control_points(:,2), <span class="string">'o--'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Control Points'</span>);
+
+    <span class="comment">% Finalize plot</span>
+    legend;
+    title(<span class="string">'B-Splines with Different n'</span>);
+    xlabel(<span class="string">'X-axis'</span>);
+    ylabel(<span class="string">'Y-axis'</span>);
+    hold <span class="string">off</span>;
+    <span class="comment">% c) part</span>
+    <span class="comment">% Plot all together</span>
+    figure;
+    hold <span class="string">on</span>;
+    <span class="comment">% n = 3</span>
+    control_points = [0 1; 2 6; 4 8; 5 2];
+    k = 4;
+    n = 3;
+    plotBSpline(control_points, n, k, <span class="string">'r'</span>, <span class="string">'B-Spline: n=3, k=4'</span>);
+
+    <span class="comment">% n = 4</span>
+    control_points = [0 1; 2 6;2 6; 4 8; 5 2];
+    k = 4;
+    n = 4;
+    plotBSpline(control_points, n, k, <span class="string">'b'</span>, <span class="string">'B-Spline: n=4, k=4'</span>);
+
+    <span class="comment">% n = 5</span>
+    control_points = [0 1; 2 6;2 6;2 6; 4 8; 5 2];
+    k = 4;
+    n = 5;
+    plotBSpline(control_points, n, k, <span class="string">'g'</span>, <span class="string">'B-Spline: n=5, k=4'</span>);
+
+    plot(control_points(:,1), control_points(:,2), <span class="string">'o--'</span>, <span class="string">'DisplayName'</span>, <span class="string">'Control Points'</span>);
+
+    <span class="comment">% Finalize plot</span>
+    legend;
+    title(<span class="string">'B-Splines with Different n'</span>);
+    xlabel(<span class="string">'X-axis'</span>);
+    ylabel(<span class="string">'Y-axis'</span>);
+    hold <span class="string">off</span>;
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> curve = b_spline_curve(control_points, n, k)
+    <span class="comment">% Generate knot vector</span>
+    knots = [zeros(1, k), linspace(1, n - k + 1, n - k + 1), repmat(n - k + 2, 1, k)];
+
+    <span class="comment">% Define number of points to plot</span>
+    num_points = 100;
+    t_values = linspace(0, n - k + 2, num_points);
+    curve = zeros(num_points, 2);
+
+    <span class="keyword">for</span> j = 1:num_points
+        t = t_values(j);
+        point = [0, 0];
+        <span class="keyword">for</span> i = 1:n + 1
+            b = basis_function(i - 1, k, t, knots); <span class="comment">% MATLAB is 1-indexed</span>
+            point = point + b * control_points(i, :);
+        <span class="keyword">end</span>
+        curve(j, :) = point;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> b = basis_function(i, k, t, knots)
+    <span class="keyword">if</span> k == 1
+        <span class="keyword">if</span> knots(i + 1) &lt;= t &amp;&amp; t &lt; knots(i + 2)
+            b = 1.0;
+        <span class="keyword">else</span>
+            b = 0.0;
+        <span class="keyword">end</span>
+    <span class="keyword">else</span>
+        denom1 = knots(i + k) - knots(i + 1);
+        denom2 = knots(i + k + 1) - knots(i + 2);
+
+        <span class="keyword">if</span> denom1 ~= 0
+            term1 = ((t - knots(i + 1)) / denom1) * basis_function(i, k - 1, t, knots);
+        <span class="keyword">else</span>
+            term1 = 0.0;
+        <span class="keyword">end</span>
+
+        <span class="keyword">if</span> denom2 ~= 0
+            term2 = ((knots(i + k + 1) - t) / denom2) * basis_function(i + 1, k - 1, t, knots);
+        <span class="keyword">else</span>
+            term2 = 0.0;
+        <span class="keyword">end</span>
+
+        b = term1 + term2;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> plotBSpline(control_points, n, k, color, label)
+    curve = b_spline_curve(control_points, n, k);
+    plot(curve(1:end-1,1), curve(1:end-1,2), color, <span class="string">'DisplayName'</span>, label);
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="me21btech11001_a3_01.png" alt=""> <img vspace="5" hspace="5" src="me21btech11001_a3_02.png" alt=""> <img vspace="5" hspace="5" src="me21btech11001_a3_03.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%Abhishek Ghosh
+%ME21BTECH11001
+%Question 2
+
+
+
+
+function B_Spline_Plot()
+    % Define control points
+    control_points = [0 1; 2 6; 4 8; 5 2];
+    n = 3; % n + 1 is the number of control points
+
+    % Plot separately
+    figure;
+    hold on;
+    % a) part
+    n = 3;
+    k = 4;
+    plotBSpline(control_points, n, k, 'r', 'B-Spline: n=3, k=4');
+    plot(control_points(:,1), control_points(:,2), 'oREPLACE_WITH_DASH_DASH', 'DisplayName', 'Control Points');
+    legend;
+    title('B-Spline with n = 3');
+    xlabel('X-axis');
+    ylabel('Y-axis');
+    hold off;
+
+
+    % b) part
+    %n = 3 & 4
+    figure;
+    hold on;
+    % n = 3
+    control_points = [0 1; 2 6; 4 8; 5 2];
+    k = 4;
+    n = 3;
+    plotBSpline(control_points, n, k, 'r', 'B-Spline: n=3, k=4');
+
+    % n = 4
+    control_points = [0 1; 2 6;2 6; 4 8; 5 2];
+    k = 4;
+    n = 4;
+    plotBSpline(control_points, n, k, 'b', 'B-Spline: n=4, k=4');
+
+    plot(control_points(:,1), control_points(:,2), 'oREPLACE_WITH_DASH_DASH', 'DisplayName', 'Control Points');
+
+    % Finalize plot
+    legend;
+    title('B-Splines with Different n');
+    xlabel('X-axis');
+    ylabel('Y-axis');
+    hold off;
+    % c) part
+    % Plot all together
+    figure;
+    hold on;
+    % n = 3
+    control_points = [0 1; 2 6; 4 8; 5 2];
+    k = 4;
+    n = 3;
+    plotBSpline(control_points, n, k, 'r', 'B-Spline: n=3, k=4');
+
+    % n = 4
+    control_points = [0 1; 2 6;2 6; 4 8; 5 2];
+    k = 4;
+    n = 4;
+    plotBSpline(control_points, n, k, 'b', 'B-Spline: n=4, k=4');
+
+    % n = 5
+    control_points = [0 1; 2 6;2 6;2 6; 4 8; 5 2];
+    k = 4;
+    n = 5;
+    plotBSpline(control_points, n, k, 'g', 'B-Spline: n=5, k=4');
+
+    plot(control_points(:,1), control_points(:,2), 'oREPLACE_WITH_DASH_DASH', 'DisplayName', 'Control Points');
+
+    % Finalize plot
+    legend;
+    title('B-Splines with Different n');
+    xlabel('X-axis');
+    ylabel('Y-axis');
+    hold off;
+end
+
+function curve = b_spline_curve(control_points, n, k)
+    % Generate knot vector
+    knots = [zeros(1, k), linspace(1, n - k + 1, n - k + 1), repmat(n - k + 2, 1, k)];
+    
+    % Define number of points to plot
+    num_points = 100;
+    t_values = linspace(0, n - k + 2, num_points);
+    curve = zeros(num_points, 2);
+
+    for j = 1:num_points
+        t = t_values(j);
+        point = [0, 0];
+        for i = 1:n + 1
+            b = basis_function(i - 1, k, t, knots); % MATLAB is 1-indexed
+            point = point + b * control_points(i, :);
+        end
+        curve(j, :) = point;
+    end
+end
+
+function b = basis_function(i, k, t, knots)
+    if k == 1
+        if knots(i + 1) <= t && t < knots(i + 2)
+            b = 1.0;
+        else
+            b = 0.0;
+        end
+    else
+        denom1 = knots(i + k) - knots(i + 1);
+        denom2 = knots(i + k + 1) - knots(i + 2);
+        
+        if denom1 ~= 0
+            term1 = ((t - knots(i + 1)) / denom1) * basis_function(i, k - 1, t, knots);
+        else
+            term1 = 0.0;
+        end
+        
+        if denom2 ~= 0
+            term2 = ((knots(i + k + 1) - t) / denom2) * basis_function(i + 1, k - 1, t, knots);
+        else
+            term2 = 0.0;
+        end
+        
+        b = term1 + term2;
+    end
+end
+
+function plotBSpline(control_points, n, k, color, label)
+    curve = b_spline_curve(control_points, n, k);
+    plot(curve(1:end-1,1), curve(1:end-1,2), color, 'DisplayName', label);
+end
+
+##### SOURCE END #####
+--></body></html>

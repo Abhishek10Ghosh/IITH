@@ -1,0 +1,340 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>assignment1</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2024-09-05"><meta name="DC.source" content="assignment1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">%Abhishek Ghosh</span>
+<span class="comment">%ME21BTECH11001</span>
+<span class="comment">%Question 3</span>
+
+<span class="comment">% % Parameters</span>
+<span class="comment">% tspan = [0 2.5];  % Time interval</span>
+<span class="comment">% y0 = [0; 0];  % Initial conditions: y(0) = 0, dy(0) = 0</span>
+<span class="comment">%</span>
+<span class="comment">% % Case 1: u(t) = 1</span>
+<span class="comment">% u1 = @(t) 1;  % Define the function u(t) = 1</span>
+<span class="comment">% [t1, y1] = ode45(@(t, y) odefunc(t, y, u1), tspan, y0);</span>
+<span class="comment">%</span>
+<span class="comment">% % Case 2: u(t) = t</span>
+<span class="comment">% u2 = @(t) t;  % Define the function u(t) = t</span>
+<span class="comment">% [t2, y2] = ode45(@(t, y) odefunc(t, y, u2), tspan, y0);</span>
+<span class="comment">%</span>
+<span class="comment">% % Case 3: u(t) = Dirac Delta approximation</span>
+<span class="comment">% impulse_magnitude = 100000;  % Large magnitude to approximate Dirac delta</span>
+<span class="comment">% impulse_duration = 0.00001;  % Very short duration for impulse</span>
+<span class="comment">% u_dirac = @(t) (t &gt;= 0 &amp; t &lt;= impulse_duration) * impulse_magnitude ;</span>
+<span class="comment">%</span>
+<span class="comment">% [t_dirac, y_dirac] = ode45(@(t, y) odefunc(t, y, u_dirac), tspan, y0);</span>
+<span class="comment">%</span>
+<span class="comment">% % Plotting the results</span>
+<span class="comment">% figure;</span>
+<span class="comment">%</span>
+<span class="comment">% % Plot for u(t) = 1</span>
+<span class="comment">% subplot(3, 1, 1);</span>
+<span class="comment">% plot(t1, y1(:, 1), 'b', 'LineWidth', 2);</span>
+<span class="comment">% title('Solution y(t) for Unit Step Response u(t) = 1');</span>
+<span class="comment">% xlabel('t');</span>
+<span class="comment">% ylabel('y(t)');</span>
+<span class="comment">% grid on;</span>
+<span class="comment">%</span>
+<span class="comment">% % Plot for u(t) = Dirac Delta approximation</span>
+<span class="comment">% subplot(3, 1, 2);</span>
+<span class="comment">% plot(t_dirac, y_dirac(:, 1), 'g', 'LineWidth', 2);</span>
+<span class="comment">% title('Solution y(t) for Unit Impluse Response u(t) = Dirac Delta (Approximated)');</span>
+<span class="comment">% xlabel('t');</span>
+<span class="comment">% ylabel('y(t)');</span>
+<span class="comment">% grid on;</span>
+<span class="comment">%</span>
+<span class="comment">% % Plot for u(t) = t</span>
+<span class="comment">% subplot(3, 1, 3);</span>
+<span class="comment">% plot(t2, y2(:, 1), 'r', 'LineWidth', 2);</span>
+<span class="comment">% title('Solution y(t) for Unit Ramp Response u(t) = t');</span>
+<span class="comment">% xlabel('t');</span>
+<span class="comment">% ylabel('y(t)');</span>
+<span class="comment">% grid on;</span>
+<span class="comment">%</span>
+<span class="comment">%</span>
+<span class="comment">% % Function to define the system of first-order ODEs</span>
+<span class="comment">% function dydt = odefunc(t, y, u)</span>
+<span class="comment">%     dydt = zeros(2, 1);</span>
+<span class="comment">%     dydt(1) = y(2);  % dy1/dt = y2</span>
+<span class="comment">%     dydt(2) = u(t) - 15 * y(2) - 56 * y(1);  % dy2/dt = u(t) - 15*y2 - 56*y1</span>
+<span class="comment">% end</span>
+
+
+<span class="comment">% Parameters for the ODE</span>
+tspan = [0 2.5];  <span class="comment">% Time interval</span>
+y0 = [0; 0];  <span class="comment">% Initial conditions: y(0) = 0, dy(0) = 0</span>
+impulse_magnitude = 100000;  <span class="comment">% Large magnitude to approximate Dirac delta</span>
+impulse_duration = 0.00001;  <span class="comment">% Very short duration for impulse</span>
+
+<span class="comment">% Numerical Solutions Using ode45</span>
+
+<span class="comment">% Case 1: u(t) = 1</span>
+u1 = @(t) 1;  <span class="comment">% Define the function u(t) = 1</span>
+[t1_num, y1_num] = ode45(@(t, y) odefunc(t, y, u1), tspan, y0);
+
+<span class="comment">% Case 2: u(t) = t</span>
+u2 = @(t) t;  <span class="comment">% Define the function u(t) = t</span>
+[t2_num, y2_num] = ode45(@(t, y) odefunc(t, y, u2), tspan, y0);
+
+<span class="comment">% Case 3: u(t) = Dirac Delta approximation</span>
+u_dirac = @(t) (t &gt;= 0 &amp; t &lt;= impulse_duration) * impulse_magnitude;
+[t_dirac_num, y_dirac_num] = ode45(@(t, y) odefunc(t, y, u_dirac), tspan, y0);
+
+<span class="comment">% Analytical Solutions Using Laplace Transforms</span>
+<span class="comment">% Analytical solution for u(t) = 1</span>
+y1_analytical = @(t) ((1/56) + (1/8) *(exp(-8*t)) - (1/7) * exp(-7*t));
+
+<span class="comment">% Analytical solution for u(t) = t</span>
+y2_analytical = @(t) ((1/56) * t + (1/49) *(exp(-7*t)) - (1/64) * exp(-8*t) - 15/3136);
+
+<span class="comment">% Analytical solution for u(t) = Dirac Delta</span>
+y_dirac_analytical = @(t) (exp(-7*t) - exp(-8*t));
+
+<span class="comment">% Time vector for plotting analytical solutions</span>
+t_analytical = linspace(0, 2.5, 1000);
+
+<span class="comment">% Plotting the comparison between numerical and analytical solutions</span>
+figure;
+
+<span class="comment">% Case 1: u(t) = 1</span>
+subplot(3, 1, 1);
+plot(t1_num, y1_num(:, 1), <span class="string">'b'</span>, <span class="string">'LineWidth'</span>, 2); hold <span class="string">on</span>;
+plot(t_analytical, y1_analytical(t_analytical), <span class="string">'r--'</span>, <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Solution y(t) Unit Step Response for u(t) = 1'</span>);
+xlabel(<span class="string">'t'</span>);
+ylabel(<span class="string">'y(t)'</span>);
+legend(<span class="string">'Numerical Solution'</span>, <span class="string">'Analytical Solution'</span>);
+grid <span class="string">on</span>;
+
+<span class="comment">% Case 3: u(t) = Dirac Delta approximation</span>
+subplot(3, 1, 2);
+plot(t_dirac_num, y_dirac_num(:, 1), <span class="string">'b'</span>, <span class="string">'LineWidth'</span>, 2); hold <span class="string">on</span>;
+plot(t_analytical, y_dirac_analytical(t_analytical), <span class="string">'r--'</span>, <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Solution y(t) for Unit Impulse Response u(t) = Dirac Delta (Approximated)'</span>);
+xlabel(<span class="string">'t'</span>);
+ylabel(<span class="string">'y(t)'</span>);
+legend(<span class="string">'Numerical Solution'</span>, <span class="string">'Analytical Solution'</span>);
+grid <span class="string">on</span>;
+
+<span class="comment">% Case 2: u(t) = t</span>
+subplot(3, 1, 3);
+plot(t2_num, y2_num(:, 1), <span class="string">'b'</span>, <span class="string">'LineWidth'</span>, 2); hold <span class="string">on</span>;
+plot(t_analytical, y2_analytical(t_analytical), <span class="string">'r--'</span>, <span class="string">'LineWidth'</span>, 2);
+title(<span class="string">'Solution y(t) Unit Ramp Response for u(t) = t'</span>);
+xlabel(<span class="string">'t'</span>);
+ylabel(<span class="string">'y(t)'</span>);
+legend(<span class="string">'Numerical Solution'</span>, <span class="string">'Analytical Solution'</span>);
+grid <span class="string">on</span>;
+
+
+
+<span class="comment">% Function to define the system of first-order ODEs</span>
+<span class="keyword">function</span> dydt = odefunc(t, y, u)
+    dydt = zeros(2, 1);
+    dydt(1) = y(2);  <span class="comment">% dy1/dt = y2</span>
+    dydt(2) = u(t) - 15 * y(2) - 56 * y(1);  <span class="comment">% dy2/dt = u(t) - 15*y2 - 56*y1</span>
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="assignment1_01.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%Abhishek Ghosh
+%ME21BTECH11001
+%Question 3
+
+% % Parameters
+% tspan = [0 2.5];  % Time interval
+% y0 = [0; 0];  % Initial conditions: y(0) = 0, dy(0) = 0
+% 
+% % Case 1: u(t) = 1
+% u1 = @(t) 1;  % Define the function u(t) = 1
+% [t1, y1] = ode45(@(t, y) odefunc(t, y, u1), tspan, y0);
+% 
+% % Case 2: u(t) = t
+% u2 = @(t) t;  % Define the function u(t) = t
+% [t2, y2] = ode45(@(t, y) odefunc(t, y, u2), tspan, y0);
+% 
+% % Case 3: u(t) = Dirac Delta approximation
+% impulse_magnitude = 100000;  % Large magnitude to approximate Dirac delta
+% impulse_duration = 0.00001;  % Very short duration for impulse
+% u_dirac = @(t) (t >= 0 & t <= impulse_duration) * impulse_magnitude ;
+% 
+% [t_dirac, y_dirac] = ode45(@(t, y) odefunc(t, y, u_dirac), tspan, y0);
+% 
+% % Plotting the results
+% figure;
+% 
+% % Plot for u(t) = 1
+% subplot(3, 1, 1);
+% plot(t1, y1(:, 1), 'b', 'LineWidth', 2);
+% title('Solution y(t) for Unit Step Response u(t) = 1');
+% xlabel('t');
+% ylabel('y(t)');
+% grid on;
+% 
+% % Plot for u(t) = Dirac Delta approximation
+% subplot(3, 1, 2);
+% plot(t_dirac, y_dirac(:, 1), 'g', 'LineWidth', 2);
+% title('Solution y(t) for Unit Impluse Response u(t) = Dirac Delta (Approximated)');
+% xlabel('t');
+% ylabel('y(t)');
+% grid on;
+% 
+% % Plot for u(t) = t
+% subplot(3, 1, 3);
+% plot(t2, y2(:, 1), 'r', 'LineWidth', 2);
+% title('Solution y(t) for Unit Ramp Response u(t) = t');
+% xlabel('t');
+% ylabel('y(t)');
+% grid on;
+% 
+% 
+% % Function to define the system of first-order ODEs
+% function dydt = odefunc(t, y, u)
+%     dydt = zeros(2, 1);
+%     dydt(1) = y(2);  % dy1/dt = y2
+%     dydt(2) = u(t) - 15 * y(2) - 56 * y(1);  % dy2/dt = u(t) - 15*y2 - 56*y1
+% end
+
+
+% Parameters for the ODE
+tspan = [0 2.5];  % Time interval
+y0 = [0; 0];  % Initial conditions: y(0) = 0, dy(0) = 0
+impulse_magnitude = 100000;  % Large magnitude to approximate Dirac delta
+impulse_duration = 0.00001;  % Very short duration for impulse
+
+% Numerical Solutions Using ode45
+
+% Case 1: u(t) = 1
+u1 = @(t) 1;  % Define the function u(t) = 1
+[t1_num, y1_num] = ode45(@(t, y) odefunc(t, y, u1), tspan, y0);
+
+% Case 2: u(t) = t
+u2 = @(t) t;  % Define the function u(t) = t
+[t2_num, y2_num] = ode45(@(t, y) odefunc(t, y, u2), tspan, y0);
+
+% Case 3: u(t) = Dirac Delta approximation
+u_dirac = @(t) (t >= 0 & t <= impulse_duration) * impulse_magnitude;
+[t_dirac_num, y_dirac_num] = ode45(@(t, y) odefunc(t, y, u_dirac), tspan, y0);
+
+% Analytical Solutions Using Laplace Transforms
+% Analytical solution for u(t) = 1
+y1_analytical = @(t) ((1/56) + (1/8) *(exp(-8*t)) - (1/7) * exp(-7*t));
+
+% Analytical solution for u(t) = t
+y2_analytical = @(t) ((1/56) * t + (1/49) *(exp(-7*t)) - (1/64) * exp(-8*t) - 15/3136);
+
+% Analytical solution for u(t) = Dirac Delta
+y_dirac_analytical = @(t) (exp(-7*t) - exp(-8*t));
+
+% Time vector for plotting analytical solutions
+t_analytical = linspace(0, 2.5, 1000);
+
+% Plotting the comparison between numerical and analytical solutions
+figure;
+
+% Case 1: u(t) = 1
+subplot(3, 1, 1);
+plot(t1_num, y1_num(:, 1), 'b', 'LineWidth', 2); hold on;
+plot(t_analytical, y1_analytical(t_analytical), 'rREPLACE_WITH_DASH_DASH', 'LineWidth', 2);
+title('Solution y(t) Unit Step Response for u(t) = 1');
+xlabel('t');
+ylabel('y(t)');
+legend('Numerical Solution', 'Analytical Solution');
+grid on;
+
+% Case 3: u(t) = Dirac Delta approximation
+subplot(3, 1, 2);
+plot(t_dirac_num, y_dirac_num(:, 1), 'b', 'LineWidth', 2); hold on;
+plot(t_analytical, y_dirac_analytical(t_analytical), 'rREPLACE_WITH_DASH_DASH', 'LineWidth', 2);
+title('Solution y(t) for Unit Impulse Response u(t) = Dirac Delta (Approximated)');
+xlabel('t');
+ylabel('y(t)');
+legend('Numerical Solution', 'Analytical Solution');
+grid on;
+
+% Case 2: u(t) = t
+subplot(3, 1, 3);
+plot(t2_num, y2_num(:, 1), 'b', 'LineWidth', 2); hold on;
+plot(t_analytical, y2_analytical(t_analytical), 'rREPLACE_WITH_DASH_DASH', 'LineWidth', 2);
+title('Solution y(t) Unit Ramp Response for u(t) = t');
+xlabel('t');
+ylabel('y(t)');
+legend('Numerical Solution', 'Analytical Solution');
+grid on;
+
+
+
+% Function to define the system of first-order ODEs
+function dydt = odefunc(t, y, u)
+    dydt = zeros(2, 1);
+    dydt(1) = y(2);  % dy1/dt = y2
+    dydt(2) = u(t) - 15 * y(2) - 56 * y(1);  % dy2/dt = u(t) - 15*y2 - 56*y1
+end
+
+##### SOURCE END #####
+--></body></html>
