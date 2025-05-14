@@ -1,0 +1,65 @@
+NAME
+	simpleGrep - print lines that match pattern
+
+SYNOPSIS
+	simpleGrep [OPTION...] PATTERN FILE
+
+DESCRIPTION
+	simpleGrep searches for occurences of PATTERN in FILE. The string PATTERN
+	will be provided within double-quotes.
+
+	The PATTERN is a string consisting of one or more "printable" ascii characters.
+	These are characters whose ascii code ranges from 32 to 126. The character '.' is
+	to be treataed as a 'wildcard' character.
+
+	The wildcard character '.' matches any one printable character. All other
+	characters in PATTERN match themselves.
+	
+	There can be zero or more options given in any order. The last two command 
+	line arguments will always be PATTERN and FILE.
+
+OPTIONS
+	-i	Ignore case. (i.e., lower case and upper case are treated the same)
+	-v	Invert output. (i.e., all lines where pattern does not appear are considered a match)
+
+OUTPUT
+	simpleGrep outputs, in separate lines, each line number and line in FILE 
+	that matches PATTERN. The format for output is:
+	line number: line
+
+	A line matches PATTERN if a substring in line matches PATTERN. However if -v option has been
+	given, simpleGrep outputs each line number and line in FILE where PATTERN does not appear.
+
+EXAMPLES
+	Assume "alice.txt" contains the following:
+
+	Alice was beginning to get very tired of sitting by her sister
+	on the bank, and of having nothing to do:  once or twice she had
+	peeped into the book her sister was reading, but it had no
+	pictures or conversations in it, `and what is the use of a book,'
+	thought Alice `without pictures or conversation?'
+
+	$./simpleGrep "her" alice.txt
+	1: Alice was beginning to get very tired of sitting by her sister
+	3: peeped into the book her sister was reading, but it had no
+
+	$./simpleGrep ".ing" alice.txt
+	1: Alice was beginning to get very tired of sitting by her sister
+	2: on the bank, and of having nothing to do:  once or twice she had
+	3: peeped into the book her sister was reading, but it had no
+
+	$./simpleGrep -i "A.d" alice.txt
+	2: on the bank, and of having nothing to do:  once or twice she had
+	4: pictures or conversations in it, `and what is the use of a book,'
+
+	$./simpleGrep -v "Alice" alice.txt
+	2: on the bank, and of having nothing to do:  once or twice she had
+	3: peeped into the book her sister was reading, but it had no
+	4: pictures or conversations in it, `and what is the use of a book,'
+
+	$./simpleGrep -v -i "t.e" alice.txt
+	1: Alice was beginning to get very tired of sitting by her sister
+	5: thought Alice `without pictures or conversation?'
+	
+	$./simpleGrep ".Alice" alice.txt
+	5:thought Alice `without pictures or conversation?'

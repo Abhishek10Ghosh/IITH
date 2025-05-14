@@ -1,0 +1,87 @@
+Low level: Machine language, Assembly.
+	C
+Mid-level: C++, Rust.
+
+High-level: Python, Java.
+
+4th/5th Generation: Haskell, Scheme etc.
+-----------------------------
+Compiled vs Interpreted.
+	Compilation -> converts the entire program into assembly/binary
+			(C, C++)
+	Interpreted -> line by line execution of code. 
+			Interpreter runs while running the program.
+			(Python, R)
+
+Platform independence: Java.
+			JVM -> java virtual machine.
+			
+Design Ideas -> 
+		Languages evolve!
+		
+		Variants of C: ANSI, TurboC, DevC. 
+		Standardization of C ~1998.
+		
+		Recent C++ standards are very feature rich, 
+		and hence bloated.
+
+Paradigms of programming languages:
+	Imperative programming languages:
+		Procedural - C
+		Object Oriented - Simula, Modula, C++
+	Declarative prorgamming languages:
+		Functional programming - Haskell, OCaml, Scheme.
+	
+	Multi paradigm: Python, Scala (supports both imperative 
+			and declarative syles)
+	
+Choosing a language based on functionality:
+	General purpose: C, Rust, C++, Java, Python
+	Symbolic computation: Mathematica, Python(sympy)
+	Numerical Computation: Matlab, Python(numpy, sscipy), FORTRAN
+	Android dev: Java, Go
+	Systems: C, Rust, C++, Assembly
+	Video game dev: C++, C#, (Game dev engines: Unity, Unreal)
+	Scientific computing: Julia
+	Statistical: R, S, S+
+	Parallel programming: CUDA, OpenCL
+	Databases: SQL (structured query language)
+	Web dev: HTML, Javascript, SQL, Django, Python, JSP
+	Domain specific languages (DSL) 
+	GUI, interfaces: Qt, GtK toolkit, Python/Java libraries.
+	
+
+Two paths to get good:
+	- CLRS - solve all problems.
+	- The Art of Computer Proramming by Donald Knuth 
+		(gradually learn stuff from here)
+
+	- "Programming contests" --> Topcoder, Hacker rank.
+		These help with computational thinking, but 
+		do not necessarily make you better at coding.
+		This is a very good thing to do along with
+		first approach. But do not rely on this entirely
+		because it is not exactly wholesome.
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		

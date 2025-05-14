@@ -1,0 +1,18 @@
+//Comments are for documenting your code for fellow-programmers, and for yourself!
+//This is a simple comment. It is called a "C++ Style" comment
+/* This is also a comment. It is a multi-line comment and is called a "C-Style" comment.
+ */
+//In C, white-spaces do not matter
+
+#include <stdio.h> //Include the standard library so that you get the capability of printing
+
+int main() //Declare a main function. This is the starting point for the execution in a program.
+{//Syntax which says the main function begins here (A compound statement!)
+
+        //Little indentation to show that the block-statements.
+        //Communication to the printf function the text you want it printed.
+        printf("svaagatam! Hello ID1063 Class! Welcome to all of you!\n");
+        //newline ensures that a new line is printed
+        //Semi-colon at the end is important
+        return 0;
+} //Syntax which says the end of the main function
