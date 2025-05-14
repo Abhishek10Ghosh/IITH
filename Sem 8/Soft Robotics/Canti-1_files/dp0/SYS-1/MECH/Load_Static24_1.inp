@@ -1,0 +1,16 @@
+rescontrol,,none				
+/com,******************* SOLVE FOR LS 1 ****************
+outres,erase
+outres,all,none
+outres,nsol,last
+outres,eangl,last
+outres,etmp,last
+outres,veng,last
+outres,nload,last  
+
+
+*get,ANSINTER_,active,,int
+*if,ANSINTER_,ne,0,then
+/eof
+*endif
+/SYS,"C:\Program Files\ANSYS Inc\ANSYS Student\v251\\aisol\bin\winx64\Opti.exe" 50543 LOAD

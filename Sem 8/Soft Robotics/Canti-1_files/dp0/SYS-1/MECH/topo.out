@@ -1,0 +1,391 @@
+----------------------------------------------------------------------
+----------        Welcome to Ansys Shape Optimizer         -----------
+----------------------------------------------------------------------
+
+       Version 2025 R1 from 20241111
+
+       Copyright 2025 ANSYS Inc. All Rights Reserved
+
+
+
+===================================================
+STEP 1: INITIALIZATION
+===================================================
+
+    Problem summary
+    ---------------------------
+        Optimization Region 1
+        ---------------------
+            mixable density based topology region
+        Objective  1
+        ------------
+            name :obj_gse_0
+            type :GSE
+        Constraint  1
+        --------------
+            name  : Mass_Constraint_56_Upper
+            type  : Mass
+            limit : 0.016956
+            state : on
+    ---------------------------
+    Evaluation of Initial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 9.03298e+07
+	constraint 1: 0.0245137 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is UNFEASIBLE.
+    Evaluation of derivatives
+
+
+===================================================
+STEP 2: OPTIMIZATION LOOP
+===================================================
+
+
+Iteration 1 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 1.51046e+08
+	constraint 1: 0.0186027 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is UNFEASIBLE.
+    Evaluation of derivatives
+
+Iteration 2 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 1.37266e+08
+	constraint 1: 0.017318 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is UNFEASIBLE.
+    Evaluation of derivatives
+
+Iteration 3 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 1.22023e+08
+	constraint 1: 0.0169655 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is UNFEASIBLE.
+    Evaluation of derivatives
+
+Iteration 4 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 1.07137e+08
+	constraint 1: 0.0169391 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 5 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 9.40365e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 6 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 8.47853e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 7 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 7.6933e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 8 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 7.03054e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 9 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 6.45156e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 10 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 6.01899e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 11 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 5.69791e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 12 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 5.45699e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 13 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 5.26495e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 14 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 5.10928e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 15 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.99009e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 16 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.89658e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 17 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.82569e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 18 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.76474e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 19 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.71332e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 20 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.68215e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 21 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.66549e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 22 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.65025e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 23 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.63487e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 24 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.61569e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 25 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.59709e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 26 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.58031e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 27 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.56036e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 28 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.53916e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 29 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.5269e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 30 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.5144e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 31 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.50443e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 32 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.5025e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 33 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.50161e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+    Evaluation of derivatives
+
+Iteration 34 of 500
+------------------------------------------
+    Evaluation of trial design
+Iteration is accepted.
+Design state: 
+	objective(min)1: 4.50118e+07
+	constraint 1: 0.016939 <= limit: 0.016956 (Mass_Constraint_56_Upper)
+Current solution is feasible.
+
+
+===================================================
+STEP 3: FINALIZATION
+===================================================
+
+    ======================================
+               SOLUTION FOUND.            
+    ======================================

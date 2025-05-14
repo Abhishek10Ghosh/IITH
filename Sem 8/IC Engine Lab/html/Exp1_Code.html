@@ -1,0 +1,193 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Exp1_Code</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2025-02-04"><meta name="DC.source" content="Exp1_Code.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">clc <span class="comment">% Clear the command window</span>
+RGB = imread(<span class="string">"800_1.jpg"</span>); <span class="comment">% Read the RGB image</span>
+imshow(RGB) <span class="comment">% Display the RGB image</span>
+
+<span class="comment">% Convert the RGB image to grayscale</span>
+I = im2gray(RGB);
+
+<span class="comment">% Binarize the grayscale image</span>
+BW = imbinarize(I);
+
+<span class="comment">% Invert the binary image</span>
+BW = ~BW;
+
+<span class="comment">% Display the inverted binary image</span>
+imshow(BW)
+
+<span class="comment">% Detect edges in the inverted binary image using the Sobel operator</span>
+BW = edge(BW,<span class="string">'sobel'</span>);
+
+<span class="comment">% Perform Hough transform on the edge-detected image</span>
+[H,theta,rho] = hough(BW);
+
+<span class="comment">% Identify peaks in the Hough transform accumulator array</span>
+P = houghpeaks(H,5,<span class="string">'threshold'</span>,ceil(0.3*max(H(:))));
+
+<span class="comment">% Detect lines in the image using the Hough peaks</span>
+lines = houghlines(BW,theta,rho,P,<span class="string">'FillGap'</span>,5,<span class="string">'MinLength'</span>,7);
+
+<span class="comment">% Display the original binary image with detected lines overlayed</span>
+
+
+figure, imshow(BW), hold <span class="string">on</span>
+
+<span class="comment">% Initialize variable to store the length of the longest line segment</span>
+max_len = 0;
+
+<span class="comment">% Iterate through each detected line</span>
+<span class="keyword">for</span> k = 1:length(lines)
+   <span class="comment">% Extract endpoints of the line</span>
+   xy = [lines(k).point1; lines(k).point2];
+
+   <span class="comment">% Plot the line</span>
+   plot(xy(:,1),xy(:,2),<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,<span class="string">'green'</span>);
+
+   <span class="comment">% Plot the endpoints of the line</span>
+   plot(xy(1,1),xy(1,2),<span class="string">'x'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,<span class="string">'yellow'</span>);
+   plot(xy(2,1),xy(2,2),<span class="string">'x'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,<span class="string">'red'</span>);
+
+   <span class="comment">% Determine the length of the line segment</span>
+   len = norm(lines(k).point1 - lines(k).point2);
+
+   <span class="comment">% Update the length of the longest line segment</span>
+   <span class="keyword">if</span> ( len &gt; max_len)
+      max_len = len;
+      xy_long = xy;
+   <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">% Highlight the longest line segment</span>
+plot(xy_long(:,1),xy_long(:,2),<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,<span class="string">'red'</span>);
+</pre><img vspace="5" hspace="5" src="Exp1_Code_01.png" alt=""> <img vspace="5" hspace="5" src="Exp1_Code_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clc % Clear the command window 
+RGB = imread("800_1.jpg"); % Read the RGB image 
+imshow(RGB) % Display the RGB image 
+ 
+% Convert the RGB image to grayscale 
+I = im2gray(RGB); 
+ 
+% Binarize the grayscale image 
+BW = imbinarize(I); 
+ 
+% Invert the binary image 
+BW = ~BW; 
+ 
+% Display the inverted binary image 
+imshow(BW) 
+ 
+% Detect edges in the inverted binary image using the Sobel operator 
+BW = edge(BW,'sobel'); 
+ 
+% Perform Hough transform on the edge-detected image 
+[H,theta,rho] = hough(BW); 
+ 
+% Identify peaks in the Hough transform accumulator array 
+P = houghpeaks(H,5,'threshold',ceil(0.3*max(H(:)))); 
+ 
+% Detect lines in the image using the Hough peaks 
+lines = houghlines(BW,theta,rho,P,'FillGap',5,'MinLength',7); 
+ 
+% Display the original binary image with detected lines overlayed 
+ 
+ 
+figure, imshow(BW), hold on 
+ 
+% Initialize variable to store the length of the longest line segment 
+max_len = 0; 
+ 
+% Iterate through each detected line 
+for k = 1:length(lines) 
+   % Extract endpoints of the line 
+   xy = [lines(k).point1; lines(k).point2]; 
+ 
+   % Plot the line 
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green'); 
+ 
+   % Plot the endpoints of the line 
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow'); 
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red'); 
+ 
+   % Determine the length of the line segment 
+   len = norm(lines(k).point1 - lines(k).point2); 
+ 
+   % Update the length of the longest line segment 
+   if ( len > max_len) 
+      max_len = len; 
+      xy_long = xy; 
+   end 
+end 
+ 
+% Highlight the longest line segment 
+plot(xy_long(:,1),xy_long(:,2),'LineWidth',2,'Color','red'); 
+##### SOURCE END #####
+--></body></html>
