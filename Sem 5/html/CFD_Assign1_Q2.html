@@ -1,0 +1,501 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>CFD_Assign1_Q2</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-11-25"><meta name="DC.source" content="CFD_Assign1_Q2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">% Abhishek Ghosh</span>
+<span class="comment">% ME21BTECH11001</span>
+
+clc
+clear <span class="string">all</span>
+<span class="comment">% Given parameters</span>
+L = 0.5/2;
+q_dot = 50000;
+T_ambient = 25;
+h_conv = 22;
+k = 0.5;
+
+n = 25;
+Starting_coordinate = -L;
+Ending_coordinate = L;
+
+h = (Ending_coordinate - Starting_coordinate) / (n - 1);
+x = linspace(-L, L, n);
+
+<span class="comment">% Analytical Solution</span>
+T_surf = T_ambient + q_dot * L / h_conv; <span class="comment">% using Boundary Condition</span>
+T_analytical = 0.5 * q_dot * (L^2) * (1 - (x.^2)/(L^2)) / k + T_surf;
+
+<span class="comment">% Plotting</span>
+figure;
+plot(x, T_analytical, <span class="string">'r--'</span>);
+title(<span class="string">'Analytical Solution'</span>);
+ylabel(<span class="string">'Temperature (T)'</span>);
+xlabel(<span class="string">'Distance (x) along the Rod'</span>);
+
+
+
+<span class="comment">%Jacobi Method :-</span>
+
+<span class="comment">% Initializing the temperature array</span>
+T_j = zeros(n, 1);
+
+C = (q_dot * (h^2)) / k;
+
+T_j(1) = T_surf;
+T_j(n) = T_surf;
+
+T_old_j = T_j;
+iterations = 0;
+Error = 1;
+Tolerance = 1e-3;
+
+<span class="keyword">while</span> Error &gt; Tolerance
+    <span class="keyword">for</span> i = 2:n-1
+        T_j(i) = 0.5 * (C + T_old_j(i-1) + T_old_j(i+1));
+    <span class="keyword">end</span>
+
+    Error = max(abs(T_j - T_old_j));
+    T_old_j = T_j;
+    iterations = iterations + 1;
+<span class="keyword">end</span>
+
+<span class="comment">% Plotting the results</span>
+
+figure;
+plot(x, T_j, <span class="string">'b-o'</span>);
+hold <span class="string">on</span>;
+plot(x, T_analytical, <span class="string">'r--'</span>);
+title(<span class="string">"Numerical Solution using Jacobi Method"</span>);
+ylabel(<span class="string">"Temperature (T)"</span>);
+xlabel(<span class="string">"Distance (x) along the Rod"</span>);
+legend([<span class="string">"Numerical Solution"</span>, <span class="string">"Analytical Solution"</span>], <span class="string">'Location'</span>, <span class="string">'Best'</span>);
+
+disp([<span class="string">'No. of Iterations in Jacobi Method: '</span>, num2str(iterations)]);
+
+
+<span class="comment">% Gauss Siedel Method :-</span>
+
+<span class="comment">% Initializing the temperature array</span>
+T_j = zeros(n, 1);
+
+C = (q_dot * (h^2)) / k;
+
+T_j(1) = T_surf;
+T_j(n) = T_surf;
+
+T_old_j = T_j;
+iterations = 0;
+Error = 1;
+Tolerance = 1e-3;
+
+<span class="keyword">while</span> Error &gt; Tolerance
+    <span class="keyword">for</span> i = 2:n-1
+        T_j(i) = 0.5 * (C + T_j(i-1) + T_old_j(i+1));
+    <span class="keyword">end</span>
+
+    Error = max(abs(T_j - T_old_j));
+    T_old_j = T_j;
+    iterations = iterations + 1;
+<span class="keyword">end</span>
+
+<span class="comment">% Plotting the results</span>
+
+figure;
+plot(x, T_j, <span class="string">'b-o'</span>);
+hold <span class="string">on</span>;
+plot(x, T_analytical, <span class="string">'r--'</span>);
+title(<span class="string">"Numerical Solution using Gauss Siedel Method"</span>);
+ylabel(<span class="string">"Temperature (T)"</span>);
+xlabel(<span class="string">"Distance (x) along the Rod"</span>);
+legend([<span class="string">"Numerical Solution"</span>, <span class="string">"Analytical Solution"</span>], <span class="string">'Location'</span>, <span class="string">'Best'</span>);
+
+disp([<span class="string">'No. of Iterations in Gauss Siedel Method: '</span>, num2str(iterations)]);
+
+<span class="comment">% % TDMA</span>
+T = zeros(n, 1);
+T(1) = T_surf;
+T(n) = T_surf;
+
+P = zeros(n, 1);
+Q = zeros(n, 1);
+
+a = 2/h^2;
+b = 1/h^2;
+c = 1/h^2;
+d = q_dot/k;
+
+P(1) = 0;
+Q(1) = T_surf;
+
+<span class="comment">% Forward sweep</span>
+<span class="keyword">for</span> i = 2:n-1
+    P(i) = b / (a - c*P(i-1));
+    Q(i) = (d + c*Q(i-1)) / (a - c*P(i-1));
+<span class="keyword">end</span>
+
+Q(n) = T(n);
+
+<span class="comment">% Backward substitution</span>
+<span class="keyword">for</span> i = n-1:-1:2
+    T(i) = T(i+1)*P(i) + Q(i);
+<span class="keyword">end</span>
+
+figure;
+plot(x, T, <span class="string">'g-o'</span>);
+hold <span class="string">on</span>;
+plot(x, T_analytical, <span class="string">'c--'</span>);
+title(<span class="string">'Numerical Solution using TDMA Method'</span>);
+ylabel(<span class="string">'Temperature (T)'</span>);
+xlabel(<span class="string">'Distance (x) along the Rod'</span>);
+legend({<span class="string">'Numerical Solution'</span>, <span class="string">'Analytical Solution'</span>}, <span class="string">'Location'</span>, <span class="string">'northeast'</span>);
+
+
+<span class="comment">% Mesh independance</span>
+
+<span class="comment">% Array of grid points</span>
+grid_points = [5, 10, 30, 60, 100, 200, 500, 800, 1000];
+figure;
+<span class="keyword">for</span> m = grid_points
+    <span class="comment">% Initializing the temperature array</span>
+    T_j = zeros(m, 1);
+    h = (Ending_coordinate - Starting_coordinate) / (m - 1);
+
+    C = (q_dot * (h^2)) / k;
+
+    T_j(1) = T_surf;
+    T_j(m) = T_surf;
+
+    T_old_j = T_j;
+    iterations = 0;
+    Error = 1;
+    Tolerance = 1e-3;
+    m
+
+    <span class="keyword">while</span> Error &gt; Tolerance
+        <span class="keyword">for</span> i = 2:m-1
+            T_j(i) = 0.5 * (C + T_j(i-1) + T_old_j(i+1));
+        <span class="keyword">end</span>
+
+        Error = max(abs(T_j - T_old_j));
+        T_old_j = T_j;
+        iterations = iterations + 1;
+    <span class="keyword">end</span>
+
+    <span class="comment">% Plotting the results</span>
+    plot(linspace(-L, L, m), T_j, <span class="string">'-o'</span>);
+    hold <span class="string">on</span>;
+<span class="keyword">end</span>
+
+title(<span class="string">"Temperature vs Mesh Size"</span>);
+ylabel(<span class="string">"Temperature (T)"</span>);
+xlabel(<span class="string">"Distance (x) along the Rod"</span>);
+legend(cellstr(num2str(grid_points', <span class="string">'Grid Points = %d'</span>)));
+hold <span class="string">off</span>;
+</pre><pre class="codeoutput">No. of Iterations in Jacobi Method: 1237
+No. of Iterations in Gauss Siedel Method: 649
+
+m =
+
+     5
+
+
+m =
+
+    10
+
+
+m =
+
+    30
+
+
+m =
+
+    60
+
+
+m =
+
+   100
+
+
+m =
+
+   200
+
+
+m =
+
+   500
+
+
+m =
+
+   800
+
+
+m =
+
+        1000
+
+</pre><img vspace="5" hspace="5" src="CFD_Assign1_Q2_01.png" alt=""> <img vspace="5" hspace="5" src="CFD_Assign1_Q2_02.png" alt=""> <img vspace="5" hspace="5" src="CFD_Assign1_Q2_03.png" alt=""> <img vspace="5" hspace="5" src="CFD_Assign1_Q2_04.png" alt=""> <img vspace="5" hspace="5" src="CFD_Assign1_Q2_05.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% Abhishek Ghosh
+% ME21BTECH11001
+
+clc
+clear all
+% Given parameters
+L = 0.5/2;
+q_dot = 50000;
+T_ambient = 25;
+h_conv = 22;
+k = 0.5;
+
+n = 25;
+Starting_coordinate = -L;
+Ending_coordinate = L;
+
+h = (Ending_coordinate - Starting_coordinate) / (n - 1);
+x = linspace(-L, L, n);
+
+% Analytical Solution
+T_surf = T_ambient + q_dot * L / h_conv; % using Boundary Condition
+T_analytical = 0.5 * q_dot * (L^2) * (1 - (x.^2)/(L^2)) / k + T_surf;
+
+% Plotting
+figure;
+plot(x, T_analytical, 'rREPLACE_WITH_DASH_DASH');
+title('Analytical Solution');
+ylabel('Temperature (T)');
+xlabel('Distance (x) along the Rod');
+
+
+
+%Jacobi Method :-
+
+% Initializing the temperature array
+T_j = zeros(n, 1);
+
+C = (q_dot * (h^2)) / k;
+
+T_j(1) = T_surf;
+T_j(n) = T_surf;
+
+T_old_j = T_j;
+iterations = 0;
+Error = 1;
+Tolerance = 1e-3;
+
+while Error > Tolerance
+    for i = 2:n-1
+        T_j(i) = 0.5 * (C + T_old_j(i-1) + T_old_j(i+1));
+    end
+
+    Error = max(abs(T_j - T_old_j));
+    T_old_j = T_j;
+    iterations = iterations + 1;
+end
+
+% Plotting the results
+
+figure;
+plot(x, T_j, 'b-o');
+hold on;
+plot(x, T_analytical, 'rREPLACE_WITH_DASH_DASH');
+title("Numerical Solution using Jacobi Method");
+ylabel("Temperature (T)");
+xlabel("Distance (x) along the Rod");
+legend(["Numerical Solution", "Analytical Solution"], 'Location', 'Best');
+
+disp(['No. of Iterations in Jacobi Method: ', num2str(iterations)]);
+
+
+% Gauss Siedel Method :- 
+
+% Initializing the temperature array
+T_j = zeros(n, 1);
+
+C = (q_dot * (h^2)) / k;
+
+T_j(1) = T_surf;
+T_j(n) = T_surf;
+
+T_old_j = T_j;
+iterations = 0;
+Error = 1;
+Tolerance = 1e-3;
+
+while Error > Tolerance
+    for i = 2:n-1
+        T_j(i) = 0.5 * (C + T_j(i-1) + T_old_j(i+1));
+    end
+
+    Error = max(abs(T_j - T_old_j));
+    T_old_j = T_j;
+    iterations = iterations + 1;
+end
+
+% Plotting the results
+
+figure;
+plot(x, T_j, 'b-o');
+hold on;
+plot(x, T_analytical, 'rREPLACE_WITH_DASH_DASH');
+title("Numerical Solution using Gauss Siedel Method");
+ylabel("Temperature (T)");
+xlabel("Distance (x) along the Rod");
+legend(["Numerical Solution", "Analytical Solution"], 'Location', 'Best');
+
+disp(['No. of Iterations in Gauss Siedel Method: ', num2str(iterations)]);
+
+% % TDMA
+T = zeros(n, 1);
+T(1) = T_surf;
+T(n) = T_surf;
+
+P = zeros(n, 1);
+Q = zeros(n, 1);
+
+a = 2/h^2;
+b = 1/h^2;
+c = 1/h^2;
+d = q_dot/k;
+
+P(1) = 0;
+Q(1) = T_surf;
+
+% Forward sweep
+for i = 2:n-1
+    P(i) = b / (a - c*P(i-1));
+    Q(i) = (d + c*Q(i-1)) / (a - c*P(i-1));
+end
+
+Q(n) = T(n);
+
+% Backward substitution
+for i = n-1:-1:2
+    T(i) = T(i+1)*P(i) + Q(i);
+end
+
+figure;
+plot(x, T, 'g-o');
+hold on;
+plot(x, T_analytical, 'cREPLACE_WITH_DASH_DASH');
+title('Numerical Solution using TDMA Method');
+ylabel('Temperature (T)');
+xlabel('Distance (x) along the Rod');
+legend({'Numerical Solution', 'Analytical Solution'}, 'Location', 'northeast');
+
+
+% Mesh independance
+
+% Array of grid points
+grid_points = [5, 10, 30, 60, 100, 200, 500, 800, 1000];
+figure;
+for m = grid_points
+    % Initializing the temperature array
+    T_j = zeros(m, 1);
+    h = (Ending_coordinate - Starting_coordinate) / (m - 1);
+
+    C = (q_dot * (h^2)) / k;
+    
+    T_j(1) = T_surf;
+    T_j(m) = T_surf;
+    
+    T_old_j = T_j;
+    iterations = 0;
+    Error = 1;
+    Tolerance = 1e-3;
+    m
+    
+    while Error > Tolerance
+        for i = 2:m-1
+            T_j(i) = 0.5 * (C + T_j(i-1) + T_old_j(i+1));
+        end
+    
+        Error = max(abs(T_j - T_old_j));
+        T_old_j = T_j;
+        iterations = iterations + 1;
+    end
+
+    % Plotting the results
+    plot(linspace(-L, L, m), T_j, '-o');
+    hold on;
+end
+
+title("Temperature vs Mesh Size");
+ylabel("Temperature (T)");
+xlabel("Distance (x) along the Rod");
+legend(cellstr(num2str(grid_points', 'Grid Points = %d')));
+hold off;
+
+
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,392 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Assignment3</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-09-06"><meta name="DC.source" content="Assignment3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">% ME21BTECH11001 Abhishek Ghosh</span>
+
+<span class="comment">% Define system parameters</span>
+m1 = 1.0;       <span class="comment">% Mass of m1 in kg</span>
+m2 = 1.0;       <span class="comment">% Mass of m2 in kg</span>
+k = 1000.0;     <span class="comment">% Spring stiffness in N/m</span>
+c = 5.0;        <span class="comment">% Damping coefficient in Ns/m</span>
+l = 0.5;      <span class="comment">% Free length of the spring in m</span>
+g = 9.81;     <span class="comment">% Acceleration due to gravity in m/s^2</span>
+
+<span class="comment">% Positions in order x1, y1, x2, y2</span>
+init_position = [0.0; 0.0; 0.5; 0.0];
+final_position = [1.0; 1.0; 1.0; 1.5];
+
+<span class="comment">% Guess for initial_velocities in order vx1, vy1, vx2, vy2</span>
+v = [0.5; -0.5; -0.5; 0.5];
+
+<span class="comment">% Small change</span>
+dv = 1.0e-3;
+
+<span class="comment">% Convergence criteria</span>
+epsilon = 1e-3;
+
+initial_time = 0.0;
+final_time = 2.0;
+
+<span class="keyword">while</span>(true)
+
+    temp_final_position = rk4_solve(init_position, v, initial_time, final_time, m1, m2, k, c, l, g);
+
+    f = temp_final_position - final_position;
+
+    <span class="keyword">if</span> (max(abs(f))) &lt; epsilon
+        temp_final_position
+        <span class="keyword">break</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">% Jacobian</span>
+    J = zeros(4, 4);
+
+    <span class="keyword">for</span> i = 1:4
+        temp_v = v;
+        temp_v(i) = temp_v(i) + dv;
+        temp_final_position_dv = rk4_solve(init_position, temp_v, initial_time, final_time, m1, m2, k, c, l, g);
+        J_col = zeros(4, 1);
+        <span class="keyword">for</span> j = 1:4
+            derivative = (temp_final_position_dv(j) - temp_final_position(j)) / dv;
+            J_col(j) = derivative;
+        <span class="keyword">end</span>
+        J(:, i) = J_col;
+    <span class="keyword">end</span>
+
+    v = v - J \ f;
+
+<span class="keyword">end</span>
+
+v
+
+<span class="keyword">function</span> final_position = rk4_solve(init_position, init_velocity, init_time, final_time, m1, m2, k, c, l, g)
+
+    <span class="comment">% Initial conditions</span>
+    x1_i = init_position(1);
+    y1_i = init_position(2);
+    vx1_i = init_velocity(1);
+    vy1_i = init_velocity(2);
+
+    x2_i = init_position(3);
+    y2_i = init_position(4);
+    vx2_i = init_velocity(3);
+    vy2_i = init_velocity(4);
+
+    <span class="comment">% Time step</span>
+    dt = 1.0e-5;
+
+    <span class="comment">% Number of time steps</span>
+    num_steps = round((final_time - init_time) / dt + 1);
+
+
+    <span class="comment">% Initialize arrays to store positions and velocities</span>
+    x1 = zeros(1, num_steps);
+    y1 = zeros(1, num_steps);
+    vx1 = zeros(1, num_steps);
+    vy1 = zeros(1, num_steps);
+
+    x2 = zeros(1, num_steps);
+    y2 = zeros(1, num_steps);
+    vx2 = zeros(1, num_steps);
+    vy2 = zeros(1, num_steps);
+
+    <span class="comment">% Set initial conditions</span>
+    x1(1) = x1_i;
+    y1(1) = y1_i;
+    vx1(1) = vx1_i;
+    vy1(1) = vy1_i;
+
+    x2(1) = x2_i;
+    y2(1) = y2_i;
+    vx2(1) = vx2_i;
+    vy2(1) = vy2_i;
+
+    arr = [x1(1) ; y1(1) ; vx1(1) ; vy1(1) ; x2(1) ; y2(1) ; vx2(1) ; vy2(1)];
+
+    <span class="comment">% Using RK4 method</span>
+    <span class="keyword">for</span> i = 1:num_steps-1
+
+        k1 = dt * calculate_derivative(arr, m1, m2, k, c, l, g);
+        k2 = dt * calculate_derivative(arr + 0.5 * k1, m1, m2, k, c, l, g);
+        k3 = dt * calculate_derivative(arr + 0.5 * k2, m1, m2, k, c, l, g);
+        k4 = dt * calculate_derivative(arr + k3, m1, m2, k, c, l, g);
+
+        arr = arr + (k1 + 2.0 * k2 + 2.0 * k3 + k4) / 6.0;
+
+        x1(i+1) = arr(1);
+        y1(i+1) = arr(2);
+        vx1(i+1) = arr(3);
+        vy1(i+1) = arr(4);
+
+        x2(i+1) = arr(5);
+        y2(i+1) = arr(6);
+        vx2(i+1) = arr(7);
+        vy2(i+1) = arr(8);
+
+    <span class="keyword">end</span>
+
+    final_position = [arr(1); arr(2); arr(5); arr(6)];
+
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> calculated_der = calculate_derivative(arr, m1, m2, k, c, l, g)
+    x1 = arr(1);
+    y1 = arr(2);
+    vx1 = arr(3);
+    vy1 = arr(4);
+    x2 = arr(5);
+    y2 = arr(6);
+    vx2 = arr(7);
+    vy2 = arr(8);
+
+    distance = sqrt((x1 - x2)^2 + (y1 - y2)^2);
+    spring_force = k * (distance - l);
+    damper_force_x = c * (vx2 - vx1);
+    damper_force_y = c * (vy2 - vy1);
+
+    ax1 = (spring_force * (x2 - x1)) / (m1 * distance) + damper_force_x / m1;
+    ay1 = (spring_force * (y2 - y1)) / (m1 * distance) + damper_force_y / m1 - g;
+
+    ax2 = (spring_force * (x1 - x2)) / (m2 * distance) + damper_force_x / m2;
+    ay2 = (spring_force * (y1 - y2)) / (m2 * distance) + damper_force_y / m2 - g;
+
+    calculated_der = [vx1 ; vy1 ; ax1 ; ay1 ; vx2 ; vy2 ; ax2 ; ay2];
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+temp_final_position =
+
+    1.0000
+    1.0000
+    1.0000
+    1.5000
+
+
+v =
+
+   21.8235
+   10.2166
+  -15.9017
+   10.8252
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% ME21BTECH11001 Abhishek Ghosh
+
+% Define system parameters
+m1 = 1.0;       % Mass of m1 in kg
+m2 = 1.0;       % Mass of m2 in kg
+k = 1000.0;     % Spring stiffness in N/m
+c = 5.0;        % Damping coefficient in Ns/m
+l = 0.5;      % Free length of the spring in m
+g = 9.81;     % Acceleration due to gravity in m/s^2
+
+% Positions in order x1, y1, x2, y2
+init_position = [0.0; 0.0; 0.5; 0.0];
+final_position = [1.0; 1.0; 1.0; 1.5];
+
+% Guess for initial_velocities in order vx1, vy1, vx2, vy2
+v = [0.5; -0.5; -0.5; 0.5];
+
+% Small change
+dv = 1.0e-3;
+
+% Convergence criteria
+epsilon = 1e-3;
+
+initial_time = 0.0;
+final_time = 2.0;
+
+while(true)
+    
+    temp_final_position = rk4_solve(init_position, v, initial_time, final_time, m1, m2, k, c, l, g);
+    
+    f = temp_final_position - final_position;
+
+    if (max(abs(f))) < epsilon
+        temp_final_position
+        break
+    end
+
+    % Jacobian
+    J = zeros(4, 4);
+    
+    for i = 1:4
+        temp_v = v;
+        temp_v(i) = temp_v(i) + dv;
+        temp_final_position_dv = rk4_solve(init_position, temp_v, initial_time, final_time, m1, m2, k, c, l, g);
+        J_col = zeros(4, 1);
+        for j = 1:4
+            derivative = (temp_final_position_dv(j) - temp_final_position(j)) / dv;
+            J_col(j) = derivative;
+        end
+        J(:, i) = J_col;
+    end
+    
+    v = v - J \ f;
+
+end
+
+v
+
+function final_position = rk4_solve(init_position, init_velocity, init_time, final_time, m1, m2, k, c, l, g)
+    
+    % Initial conditions
+    x1_i = init_position(1);
+    y1_i = init_position(2);
+    vx1_i = init_velocity(1);
+    vy1_i = init_velocity(2);
+    
+    x2_i = init_position(3);
+    y2_i = init_position(4);
+    vx2_i = init_velocity(3);
+    vy2_i = init_velocity(4);
+    
+    % Time step
+    dt = 1.0e-5;
+    
+    % Number of time steps
+    num_steps = round((final_time - init_time) / dt + 1);
+    
+    
+    % Initialize arrays to store positions and velocities
+    x1 = zeros(1, num_steps);
+    y1 = zeros(1, num_steps);
+    vx1 = zeros(1, num_steps);
+    vy1 = zeros(1, num_steps);
+    
+    x2 = zeros(1, num_steps);
+    y2 = zeros(1, num_steps);
+    vx2 = zeros(1, num_steps);
+    vy2 = zeros(1, num_steps);
+    
+    % Set initial conditions
+    x1(1) = x1_i;
+    y1(1) = y1_i;
+    vx1(1) = vx1_i;
+    vy1(1) = vy1_i;
+    
+    x2(1) = x2_i;
+    y2(1) = y2_i;
+    vx2(1) = vx2_i;
+    vy2(1) = vy2_i;
+    
+    arr = [x1(1) ; y1(1) ; vx1(1) ; vy1(1) ; x2(1) ; y2(1) ; vx2(1) ; vy2(1)];
+    
+    % Using RK4 method
+    for i = 1:num_steps-1
+
+        k1 = dt * calculate_derivative(arr, m1, m2, k, c, l, g);
+        k2 = dt * calculate_derivative(arr + 0.5 * k1, m1, m2, k, c, l, g);
+        k3 = dt * calculate_derivative(arr + 0.5 * k2, m1, m2, k, c, l, g);
+        k4 = dt * calculate_derivative(arr + k3, m1, m2, k, c, l, g);
+
+        arr = arr + (k1 + 2.0 * k2 + 2.0 * k3 + k4) / 6.0;
+
+        x1(i+1) = arr(1);
+        y1(i+1) = arr(2);
+        vx1(i+1) = arr(3);
+        vy1(i+1) = arr(4);
+
+        x2(i+1) = arr(5);
+        y2(i+1) = arr(6);
+        vx2(i+1) = arr(7);
+        vy2(i+1) = arr(8);
+
+    end
+    
+    final_position = [arr(1); arr(2); arr(5); arr(6)];
+
+end
+
+function calculated_der = calculate_derivative(arr, m1, m2, k, c, l, g)
+    x1 = arr(1);
+    y1 = arr(2);
+    vx1 = arr(3);
+    vy1 = arr(4);
+    x2 = arr(5);
+    y2 = arr(6);
+    vx2 = arr(7);
+    vy2 = arr(8);
+
+    distance = sqrt((x1 - x2)^2 + (y1 - y2)^2);
+    spring_force = k * (distance - l);
+    damper_force_x = c * (vx2 - vx1);
+    damper_force_y = c * (vy2 - vy1);
+
+    ax1 = (spring_force * (x2 - x1)) / (m1 * distance) + damper_force_x / m1;
+    ay1 = (spring_force * (y2 - y1)) / (m1 * distance) + damper_force_y / m1 - g;
+
+    ax2 = (spring_force * (x1 - x2)) / (m2 * distance) + damper_force_x / m2;
+    ay2 = (spring_force * (y1 - y2)) / (m2 * distance) + damper_force_y / m2 - g;
+    
+    calculated_der = [vx1 ; vy1 ; ax1 ; ay1 ; vx2 ; vy2 ; ax2 ; ay2];
+end
+
+##### SOURCE END #####
+--></body></html>

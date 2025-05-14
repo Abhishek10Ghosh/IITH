@@ -1,0 +1,920 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>CFD_Assign3</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-11-29"><meta name="DC.source" content="CFD_Assign3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">% Abhishek Ghosh</span>
+<span class="comment">% ME21BTECH11001</span>
+
+<span class="comment">% Given Parameters</span>
+alpha = 9.7e-5;
+T_init = 30;
+T_1 = 50;
+T_2 = 150;
+L = 2; <span class="comment">% length</span>
+B = 1; <span class="comment">% breadth</span>
+nx = 31;
+ny = 31;
+
+x = linspace(0, L, nx);
+y = linspace(0, B, ny);
+dy = x(2) - x(1);
+dx = y(2) - y(1);
+
+<span class="comment">% To find the maximum permissible time step, as per above set parameters</span>
+max_time = 10000;
+delta_t = 0.5 / (alpha * ((1 / dx^2) + (1 / dy^2)));
+disp(delta_t);
+
+<span class="comment">% % Explicit</span>
+<span class="comment">% T_e = ones(nx, ny);</span>
+<span class="comment">%</span>
+<span class="comment">% % Imposing Initial Conditions</span>
+<span class="comment">% T_e = T_init * T_e;</span>
+<span class="comment">%</span>
+<span class="comment">% % Initializing Boundary Conditions</span>
+<span class="comment">% T_e(1, :) = T_1;</span>
+<span class="comment">% T_e(:, 1) = T_1;</span>
+<span class="comment">% T_e(:, ny) = T_1;</span>
+<span class="comment">% T_e(nx, :) = T_2;</span>
+<span class="comment">%</span>
+<span class="comment">% t = 0.0; % time, initially it is 0</span>
+<span class="comment">% dt = 4.57; % time step</span>
+<span class="comment">%</span>
+<span class="comment">% rx = alpha * dt / (dx^2);</span>
+<span class="comment">% ry = alpha * dt / (dy^2);</span>
+<span class="comment">%</span>
+<span class="comment">% T_e_old = T_e;</span>
+<span class="comment">%</span>
+<span class="comment">% iteration = 0;</span>
+<span class="comment">% time_intervals = 200;</span>
+<span class="comment">%</span>
+<span class="comment">% while t &lt;= max_time</span>
+<span class="comment">%     for i = 2:nx-1</span>
+<span class="comment">%         for j = 2:ny-1</span>
+<span class="comment">%             T_e(i, j) = rx * (T_e_old(i+1, j) + T_e_old(i-1, j)) + (1 - 2*rx - 2*ry) * T_e_old(i, j) + ry * (T_e_old(i, j+1) + T_e_old(i, j-1));</span>
+<span class="comment">%         end</span>
+<span class="comment">%     end</span>
+<span class="comment">%</span>
+<span class="comment">%     t = t + dt;</span>
+<span class="comment">%     T_e_old = T_e;</span>
+<span class="comment">%</span>
+<span class="comment">%     iteration = iteration + 1;</span>
+<span class="comment">%</span>
+<span class="comment">%     % Plotting at specific time intervals</span>
+<span class="comment">%     if mod(iteration, time_intervals) == 0</span>
+<span class="comment">%         disp(['Number of iterations in Explicit Method: ', num2str(iteration)]);</span>
+<span class="comment">%         [X, Y] = meshgrid(x, y);</span>
+<span class="comment">%         figure;</span>
+<span class="comment">%         contourf(X, Y, T_e, 'LineColor', 'none');</span>
+<span class="comment">%         colorbar();</span>
+<span class="comment">%         title(['Temperature distribution with time (Explicit), t = ', num2str(t), ' units']);</span>
+<span class="comment">%         xlabel('Along X');</span>
+<span class="comment">%         ylabel('Along Y');</span>
+<span class="comment">%         axis equal;</span>
+<span class="comment">%         grid on;</span>
+<span class="comment">%     end</span>
+<span class="comment">% end</span>
+<span class="comment">%</span>
+<span class="comment">% disp(['Number of iterations in Explicit Method: ', num2str(iteration)]);</span>
+
+
+<span class="comment">% % Implicit Scheme</span>
+<span class="comment">% t = 0.0;</span>
+<span class="comment">% dt = 10; % Since Implicit Scheme is Unconditionally Stable, we can use any time step</span>
+<span class="comment">% Tolerance = 1e-5;</span>
+<span class="comment">%</span>
+<span class="comment">% rx = alpha * dt / (dx^2);</span>
+<span class="comment">% ry = alpha * dt / (dy^2);</span>
+<span class="comment">%</span>
+<span class="comment">% T_i = ones(nx, ny) * T_init;</span>
+<span class="comment">%</span>
+<span class="comment">% % Initializing Boundary Conditions</span>
+<span class="comment">% T_i(1, :) = T_1;</span>
+<span class="comment">% T_i(:, 1) = T_1;</span>
+<span class="comment">% T_i(:, ny) = T_1;</span>
+<span class="comment">% T_i(nx, :) = T_2;</span>
+<span class="comment">%</span>
+<span class="comment">% T_i_old = T_i;</span>
+<span class="comment">% T_prev = T_i;</span>
+<span class="comment">%</span>
+<span class="comment">% iteration_count = 0;</span>
+<span class="comment">% time_intervals = 100;</span>
+<span class="comment">%</span>
+<span class="comment">% while t &lt;= max_time</span>
+<span class="comment">%     Error = 1;</span>
+<span class="comment">%</span>
+<span class="comment">%     while Error &gt; Tolerance</span>
+<span class="comment">%         for i = 2:nx-1</span>
+<span class="comment">%             for j = 2:ny-1</span>
+<span class="comment">%                 T_i(i, j) = (T_prev(i,j) + rx*(T_i(i-1, j) + T_i(i+1, j)) + ry*(T_i(i, j-1) + T_i(i, j+1))) / (1 + 2*rx + 2*ry);</span>
+<span class="comment">%             end</span>
+<span class="comment">%         end</span>
+<span class="comment">%</span>
+<span class="comment">%         Error = max(max(abs(T_i - T_i_old)));</span>
+<span class="comment">%         T_i_old = T_i;</span>
+<span class="comment">%</span>
+<span class="comment">%         iteration_count = iteration_count + 1;</span>
+<span class="comment">%     end</span>
+<span class="comment">%</span>
+<span class="comment">%     if max(max(abs(T_i - T_prev))) &lt; Tolerance</span>
+<span class="comment">%         break;</span>
+<span class="comment">%     end</span>
+<span class="comment">%</span>
+<span class="comment">%     T_prev = T_i;</span>
+<span class="comment">%     t = t + dt;</span>
+<span class="comment">%</span>
+<span class="comment">%     % Plotting at specific time intervals</span>
+<span class="comment">%     if mod(iteration_count, time_intervals) == 0</span>
+<span class="comment">%         disp(['Number of iterations in Implicit Method: ', num2str(iteration_count)]);</span>
+<span class="comment">%         [X, Y] = meshgrid(x, y);</span>
+<span class="comment">%         figure;</span>
+<span class="comment">%         contourf(X, Y, T_i, 'LineColor', 'none');</span>
+<span class="comment">%         colorbar();</span>
+<span class="comment">%         title(['Temperature distribution with time (Implicit), t = ', num2str(t), ' units']);</span>
+<span class="comment">%         xlabel('Along X');</span>
+<span class="comment">%         ylabel('Along Y');</span>
+<span class="comment">%         axis equal;</span>
+<span class="comment">%         grid on;</span>
+<span class="comment">%     end</span>
+<span class="comment">% end</span>
+<span class="comment">%</span>
+<span class="comment">% disp(['Number of total iterations in Implicit Method: ', num2str(iteration_count)]);</span>
+
+
+<span class="comment">% % CN Method</span>
+<span class="comment">% T_CN = ones(nx, ny);</span>
+<span class="comment">%</span>
+<span class="comment">% t = 0.0;</span>
+<span class="comment">% dt = 1.0;</span>
+<span class="comment">%</span>
+<span class="comment">% rx = alpha * dt / (dx^2);</span>
+<span class="comment">% ry = alpha * dt / (dy^2);</span>
+<span class="comment">%</span>
+<span class="comment">% T_CN = T_CN * T_init;</span>
+<span class="comment">%</span>
+<span class="comment">% % Initializing Boundary Conditions</span>
+<span class="comment">% T_CN(1, :) = T_1;</span>
+<span class="comment">% T_CN(:, 1) = T_1;</span>
+<span class="comment">% T_CN(:, ny) = T_1;</span>
+<span class="comment">% T_CN(nx, :) = T_2;</span>
+<span class="comment">%</span>
+<span class="comment">% T_CN_old = T_CN;</span>
+<span class="comment">%</span>
+<span class="comment">% iteration_count = 0;</span>
+<span class="comment">% time_intervals = 1000;</span>
+<span class="comment">%</span>
+<span class="comment">% while t &lt;= max_time</span>
+<span class="comment">%     a = (1 + ry + rx);</span>
+<span class="comment">%     b = 0.5 * ry;</span>
+<span class="comment">%     c = 0.5 * ry;</span>
+<span class="comment">%     T0 = T_1;</span>
+<span class="comment">%     Tn = T_1;</span>
+<span class="comment">%</span>
+<span class="comment">%     for i = 2:nx-1</span>
+<span class="comment">%         d = zeros(1, ny);</span>
+<span class="comment">%         for j = 2:ny-1</span>
+<span class="comment">%             term1 = 0.5 * rx * (T_CN_old(i-1, j) - 2*T_CN_old(i, j) + T_CN_old(i+1, j));</span>
+<span class="comment">%             term2 = 0.5 * ry * (T_CN_old(i, j-1) - 2*T_CN_old(i, j) + T_CN_old(i, j+1));</span>
+<span class="comment">%             term3 = 0.5 * rx * (T_CN(i-1, j) + T_CN(i+1, j));</span>
+<span class="comment">%             d(j) = term1 + term2 + term3 + T_CN_old(i, j);</span>
+<span class="comment">%         end</span>
+<span class="comment">%</span>
+<span class="comment">%         T_CN(i, :) = Thomas_algo(a, b, c, d, T0, Tn, ny);</span>
+<span class="comment">%     end</span>
+<span class="comment">%</span>
+<span class="comment">%     if max(max(abs(T_CN - T_CN_old))) &lt; Tolerance</span>
+<span class="comment">%         disp('Steady State Reached');</span>
+<span class="comment">%         break;</span>
+<span class="comment">%     end</span>
+<span class="comment">%</span>
+<span class="comment">%     t = t + dt;</span>
+<span class="comment">%     T_CN_old = T_CN;</span>
+<span class="comment">%</span>
+<span class="comment">%     iteration_count = iteration_count + 1;</span>
+<span class="comment">%</span>
+<span class="comment">%     % Plotting at specific time intervals</span>
+<span class="comment">%     if mod(iteration_count, time_intervals) == 0</span>
+<span class="comment">%         disp(['Number of iterations in CN Method: ', num2str(iteration_count)]);</span>
+<span class="comment">%         [X, Y] = meshgrid(x, y);</span>
+<span class="comment">%         figure;</span>
+<span class="comment">%         contourf(X, Y, T_CN, 'LineColor', 'none');</span>
+<span class="comment">%         colorbar();</span>
+<span class="comment">%         title(['Temperature distribution with time (Crank-Nicolson), t = ', num2str(t), ' units']);</span>
+<span class="comment">%         xlabel('Along X');</span>
+<span class="comment">%         ylabel('Along Y');</span>
+<span class="comment">%         axis equal;</span>
+<span class="comment">%         grid on;</span>
+<span class="comment">%     end</span>
+<span class="comment">% end</span>
+<span class="comment">%</span>
+<span class="comment">% disp(['Number of total iterations in CN Method: ', num2str(iteration_count)]);</span>
+
+
+<span class="comment">% ADI</span>
+<span class="comment">% t = 0.0;</span>
+<span class="comment">% dt = 8;</span>
+<span class="comment">%</span>
+<span class="comment">% rx = alpha * dt / (dx^2);</span>
+<span class="comment">% ry = alpha * dt / (dy^2);</span>
+<span class="comment">%</span>
+<span class="comment">% T_adt = ones(nx, ny) * T_init;</span>
+<span class="comment">%</span>
+<span class="comment">% % Initializing Boundary Conditions</span>
+<span class="comment">% T_adt(1, :) = T_1;</span>
+<span class="comment">% T_adt(:, 1) = T_1;</span>
+<span class="comment">% T_adt(:, ny) = T_1;</span>
+<span class="comment">% T_adt(nx, :) = T_2;</span>
+<span class="comment">%</span>
+<span class="comment">% T_adt_old = T_adt;</span>
+<span class="comment">% iteration_count = 0;</span>
+<span class="comment">% time_intervals = 200;</span>
+<span class="comment">%</span>
+<span class="comment">% while t &lt;= max_time</span>
+<span class="comment">%     Temp = T_adt_old;</span>
+<span class="comment">%</span>
+<span class="comment">%     % Sweeping in X - Direction</span>
+<span class="comment">%     a = (1 + ry);</span>
+<span class="comment">%     b = 0.5 * ry;</span>
+<span class="comment">%     c = 0.5 * ry;</span>
+<span class="comment">%</span>
+<span class="comment">%     T0 = T_1;</span>
+<span class="comment">%     Tn = T_1;</span>
+<span class="comment">%</span>
+<span class="comment">%     for i = 2:nx-1</span>
+<span class="comment">%         d = zeros(1, ny);</span>
+<span class="comment">%         for j = 2:ny-1</span>
+<span class="comment">%             d(j) = 0.5 * rx * T_adt_old(i-1, j) + (1 - rx) * T_adt_old(i, j) + 0.5 * rx * T_adt_old(i+1, j);</span>
+<span class="comment">%         end</span>
+<span class="comment">%</span>
+<span class="comment">%         Temp(i, :) = Thomas_algo(a, b, c, d, T0, Tn, ny);</span>
+<span class="comment">%     end</span>
+<span class="comment">%</span>
+<span class="comment">%     T_adt = Temp;</span>
+<span class="comment">%</span>
+<span class="comment">%     % Sweeping in Y Direction</span>
+<span class="comment">%     a = 1 + rx;</span>
+<span class="comment">%     b = 0.5 * rx;</span>
+<span class="comment">%     c = 0.5 * rx;</span>
+<span class="comment">%</span>
+<span class="comment">%     T0 = T_1;</span>
+<span class="comment">%     Tn = T_2;</span>
+<span class="comment">%</span>
+<span class="comment">%     for j = 2:ny-1</span>
+<span class="comment">%         d = zeros(1, nx);</span>
+<span class="comment">%         for i = 2:nx-1</span>
+<span class="comment">%             d(i) = 0.5 * ry * Temp(i, j-1) + (1 - ry) * Temp(i, j) + 0.5 * ry * Temp(i, j+1);</span>
+<span class="comment">%         end</span>
+<span class="comment">%</span>
+<span class="comment">%         T_adt(:, j) = Thomas_algo(a, b, c, d, T0, Tn, nx);</span>
+<span class="comment">%     end</span>
+<span class="comment">%</span>
+<span class="comment">%     if max(max(abs(T_adt - T_adt_old))) &lt; Tolerance</span>
+<span class="comment">%         disp('Steady State Reached');</span>
+<span class="comment">%         break;</span>
+<span class="comment">%     end</span>
+<span class="comment">%</span>
+<span class="comment">%     t = t + dt;</span>
+<span class="comment">%     T_adt_old = T_adt;</span>
+<span class="comment">%     iteration_count = iteration_count + 1;</span>
+<span class="comment">%</span>
+<span class="comment">%     % Plotting at specific time intervals</span>
+<span class="comment">%     if mod(iteration_count, time_intervals) == 0</span>
+<span class="comment">%         disp(['Number of iterations in ADI Method: ', num2str(iteration_count)]);</span>
+<span class="comment">%         [X, Y] = meshgrid(x, y);</span>
+<span class="comment">%         figure;</span>
+<span class="comment">%         contourf(X, Y, T_adt, 10, 'LineColor', 'none');</span>
+<span class="comment">%         colorbar();</span>
+<span class="comment">%         title(['Temperature distribution with time (ADI Method), t = ', num2str(t), ' units']);</span>
+<span class="comment">%         xlabel('Along X');</span>
+<span class="comment">%         ylabel('Along Y');</span>
+<span class="comment">%         axis equal;</span>
+<span class="comment">%         grid on;</span>
+<span class="comment">%     end</span>
+<span class="comment">% end</span>
+<span class="comment">%</span>
+<span class="comment">% disp(['Number of total iterations in ADI Method: ', num2str(iteration_count)]);</span>
+
+<span class="comment">% Mesh independance</span>
+<span class="comment">% Grid Independence Test for Implicit Scheme</span>
+<span class="comment">% Different grid sizes to test</span>
+
+grid_points = [10, 15, 21, 32, 45];
+
+figure;
+hold <span class="string">on</span>;
+<span class="keyword">for</span> g = grid_points
+    x_t = linspace(0, L, g);
+    y_t = linspace(0, B, g);
+    dx = x_t(2) - x_t(1);
+    dy = y_t(2) - y_t(1);
+
+    T = implicit(g);
+    T_plot = T(:, round(g/2)); <span class="comment">% Corrected indexing</span>
+
+
+    plot(x_t, T_plot, <span class="string">'DisplayName'</span>, sprintf(<span class="string">'Grid Size: %.6f'</span>, x_t(2) - x_t(1)));
+
+<span class="keyword">end</span>
+
+hold <span class="string">off</span>;
+title(<span class="string">'Temperature Distribution along Centerline'</span>);
+xlabel(<span class="string">'Along X'</span>);
+ylabel(<span class="string">'Temperature'</span>);
+legend;
+
+figure;
+hold <span class="string">on</span>;
+<span class="keyword">for</span> g = grid_points
+    x_t = linspace(0, L, g);
+    y_t = linspace(0, B, g);
+    dx = x_t(2) - x_t(1);
+    dy = y_t(2) - y_t(1);
+
+    T = implicit(g);
+    T_plot = T( round(g/2),:); <span class="comment">% Corrected indexing</span>
+
+
+    plot(x_t, T_plot, <span class="string">'DisplayName'</span>, sprintf(<span class="string">'Grid Size: %.6f'</span>, x_t(2) - x_t(1)));
+
+<span class="keyword">end</span>
+
+hold <span class="string">off</span>;
+title(<span class="string">'Temperature Distribution along Centerline'</span>);
+xlabel(<span class="string">'Along Y'</span>);
+ylabel(<span class="string">'Temperature'</span>);
+legend;
+
+<span class="keyword">function</span> T_i = implicit(grid_size)
+    alpha = 9.7e-5;
+    T_init = 30;
+    T_1 = 50;
+    T_2 = 150;
+    L = 2; <span class="comment">% length</span>
+    B = 1; <span class="comment">% breadth</span>
+    <span class="comment">% Initialize grid and parameters based on the grid size</span>
+    nx = grid_size;
+    ny = grid_size;
+    dx = L / (nx - 1);
+    dy = B / (ny - 1);
+
+    <span class="comment">% Initialize temperature field and boundary conditions</span>
+    T_i = ones(nx, ny) * T_init;
+    T_i(1, :) = T_1;
+    T_i(:, 1) = T_1;
+    T_i(:, ny) = T_1;
+    T_i(nx, :) = T_2;
+    max_time = 10000;
+    T_i_old = T_i;
+    t = 0.0;
+    dt = 10; <span class="comment">% Adjust the time step as needed</span>
+    Tolerance = 1e-5;
+    rx = alpha * dt / (dx^2);
+    ry = alpha * dt / (dy^2);
+    iteration_count = 0;
+
+    <span class="comment">% Perform the implicit scheme simulation</span>
+    <span class="keyword">while</span> t &lt;= max_time
+        Error = 1;
+
+        <span class="keyword">while</span> Error &gt; Tolerance
+            <span class="keyword">for</span> i = 2:nx-1
+                <span class="keyword">for</span> j = 2:ny-1
+                    T_i(i, j) = (T_i_old(i, j) + rx * (T_i(i-1, j) + T_i(i+1, j)) + ry * (T_i(i, j-1) + T_i(i, j+1))) / (1 + 2 * rx + 2 * ry);
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+
+            Error = max(max(abs(T_i - T_i_old)));
+            T_i_old = T_i;
+
+            iteration_count = iteration_count + 1;
+        <span class="keyword">end</span>
+
+        <span class="keyword">if</span> max(max(abs(T_i - T_i_old))) &lt; Tolerance
+            <span class="keyword">break</span>;
+        <span class="keyword">end</span>
+
+        t = t + dt;
+        T_i_old = T_i;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+
+
+<span class="comment">% TDMA Function</span>
+<span class="keyword">function</span> T_tdma = Thomas_algo(a, b, c, d, T0, Tn, n)
+    T_tdma = zeros(1, n);
+    T_tdma(1) = T0;
+    T_tdma(n) = Tn;
+
+    P = zeros(1, n);
+    Q = zeros(1, n);
+
+    P(1) = 0;
+    Q(1) = T0;
+
+    <span class="keyword">for</span> i = 2:n
+        P(i) = b / (a - c * P(i-1));
+        Q(i) = (d(i) + c * Q(i-1)) / (a - c * P(i-1));
+    <span class="keyword">end</span>
+
+    Q(n) = Tn;
+
+    <span class="keyword">for</span> i = n-1:-1:1
+        T_tdma(i) = T_tdma(i+1) * P(i) + Q(i);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">    4.5819
+
+</pre><img vspace="5" hspace="5" src="CFD_Assign3_01.png" alt=""> <img vspace="5" hspace="5" src="CFD_Assign3_02.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% Abhishek Ghosh
+% ME21BTECH11001
+
+% Given Parameters
+alpha = 9.7e-5;
+T_init = 30;
+T_1 = 50;
+T_2 = 150;
+L = 2; % length
+B = 1; % breadth
+nx = 31;
+ny = 31;
+
+x = linspace(0, L, nx);
+y = linspace(0, B, ny);
+dy = x(2) - x(1);
+dx = y(2) - y(1);
+
+% To find the maximum permissible time step, as per above set parameters
+max_time = 10000;
+delta_t = 0.5 / (alpha * ((1 / dx^2) + (1 / dy^2)));
+disp(delta_t);
+
+% % Explicit
+% T_e = ones(nx, ny);
+% 
+% % Imposing Initial Conditions
+% T_e = T_init * T_e;
+% 
+% % Initializing Boundary Conditions
+% T_e(1, :) = T_1;
+% T_e(:, 1) = T_1;
+% T_e(:, ny) = T_1;
+% T_e(nx, :) = T_2;
+% 
+% t = 0.0; % time, initially it is 0
+% dt = 4.57; % time step
+% 
+% rx = alpha * dt / (dx^2);
+% ry = alpha * dt / (dy^2);
+% 
+% T_e_old = T_e;
+% 
+% iteration = 0;
+% time_intervals = 200;
+% 
+% while t <= max_time
+%     for i = 2:nx-1
+%         for j = 2:ny-1
+%             T_e(i, j) = rx * (T_e_old(i+1, j) + T_e_old(i-1, j)) + (1 - 2*rx - 2*ry) * T_e_old(i, j) + ry * (T_e_old(i, j+1) + T_e_old(i, j-1));
+%         end
+%     end
+% 
+%     t = t + dt;
+%     T_e_old = T_e;
+% 
+%     iteration = iteration + 1;
+% 
+%     % Plotting at specific time intervals
+%     if mod(iteration, time_intervals) == 0
+%         disp(['Number of iterations in Explicit Method: ', num2str(iteration)]);
+%         [X, Y] = meshgrid(x, y);
+%         figure;
+%         contourf(X, Y, T_e, 'LineColor', 'none');
+%         colorbar();
+%         title(['Temperature distribution with time (Explicit), t = ', num2str(t), ' units']);
+%         xlabel('Along X');
+%         ylabel('Along Y');
+%         axis equal;
+%         grid on;
+%     end
+% end
+% 
+% disp(['Number of iterations in Explicit Method: ', num2str(iteration)]);
+
+
+% % Implicit Scheme
+% t = 0.0;
+% dt = 10; % Since Implicit Scheme is Unconditionally Stable, we can use any time step
+% Tolerance = 1e-5;
+% 
+% rx = alpha * dt / (dx^2);
+% ry = alpha * dt / (dy^2);
+% 
+% T_i = ones(nx, ny) * T_init;
+% 
+% % Initializing Boundary Conditions
+% T_i(1, :) = T_1;
+% T_i(:, 1) = T_1;
+% T_i(:, ny) = T_1;
+% T_i(nx, :) = T_2;
+% 
+% T_i_old = T_i;
+% T_prev = T_i;
+% 
+% iteration_count = 0;
+% time_intervals = 100;
+% 
+% while t <= max_time
+%     Error = 1;
+% 
+%     while Error > Tolerance
+%         for i = 2:nx-1
+%             for j = 2:ny-1
+%                 T_i(i, j) = (T_prev(i,j) + rx*(T_i(i-1, j) + T_i(i+1, j)) + ry*(T_i(i, j-1) + T_i(i, j+1))) / (1 + 2*rx + 2*ry);
+%             end
+%         end
+% 
+%         Error = max(max(abs(T_i - T_i_old)));
+%         T_i_old = T_i;
+% 
+%         iteration_count = iteration_count + 1;
+%     end
+% 
+%     if max(max(abs(T_i - T_prev))) < Tolerance
+%         break;
+%     end
+% 
+%     T_prev = T_i;
+%     t = t + dt;
+% 
+%     % Plotting at specific time intervals
+%     if mod(iteration_count, time_intervals) == 0
+%         disp(['Number of iterations in Implicit Method: ', num2str(iteration_count)]);
+%         [X, Y] = meshgrid(x, y);
+%         figure;
+%         contourf(X, Y, T_i, 'LineColor', 'none');
+%         colorbar();
+%         title(['Temperature distribution with time (Implicit), t = ', num2str(t), ' units']);
+%         xlabel('Along X');
+%         ylabel('Along Y');
+%         axis equal;
+%         grid on;
+%     end
+% end
+% 
+% disp(['Number of total iterations in Implicit Method: ', num2str(iteration_count)]);
+
+
+% % CN Method
+% T_CN = ones(nx, ny);
+% 
+% t = 0.0;
+% dt = 1.0;
+% 
+% rx = alpha * dt / (dx^2);
+% ry = alpha * dt / (dy^2);
+% 
+% T_CN = T_CN * T_init;
+% 
+% % Initializing Boundary Conditions
+% T_CN(1, :) = T_1;
+% T_CN(:, 1) = T_1;
+% T_CN(:, ny) = T_1;
+% T_CN(nx, :) = T_2;
+% 
+% T_CN_old = T_CN;
+% 
+% iteration_count = 0;
+% time_intervals = 1000;
+% 
+% while t <= max_time
+%     a = (1 + ry + rx);
+%     b = 0.5 * ry;
+%     c = 0.5 * ry;
+%     T0 = T_1;
+%     Tn = T_1;
+% 
+%     for i = 2:nx-1
+%         d = zeros(1, ny);
+%         for j = 2:ny-1
+%             term1 = 0.5 * rx * (T_CN_old(i-1, j) - 2*T_CN_old(i, j) + T_CN_old(i+1, j));
+%             term2 = 0.5 * ry * (T_CN_old(i, j-1) - 2*T_CN_old(i, j) + T_CN_old(i, j+1));
+%             term3 = 0.5 * rx * (T_CN(i-1, j) + T_CN(i+1, j));
+%             d(j) = term1 + term2 + term3 + T_CN_old(i, j);
+%         end
+% 
+%         T_CN(i, :) = Thomas_algo(a, b, c, d, T0, Tn, ny);
+%     end
+% 
+%     if max(max(abs(T_CN - T_CN_old))) < Tolerance
+%         disp('Steady State Reached');
+%         break;
+%     end
+% 
+%     t = t + dt;
+%     T_CN_old = T_CN;
+% 
+%     iteration_count = iteration_count + 1;
+% 
+%     % Plotting at specific time intervals
+%     if mod(iteration_count, time_intervals) == 0
+%         disp(['Number of iterations in CN Method: ', num2str(iteration_count)]);
+%         [X, Y] = meshgrid(x, y);
+%         figure;
+%         contourf(X, Y, T_CN, 'LineColor', 'none');
+%         colorbar();
+%         title(['Temperature distribution with time (Crank-Nicolson), t = ', num2str(t), ' units']);
+%         xlabel('Along X');
+%         ylabel('Along Y');
+%         axis equal;
+%         grid on;
+%     end
+% end
+% 
+% disp(['Number of total iterations in CN Method: ', num2str(iteration_count)]);
+
+
+% ADI
+% t = 0.0;
+% dt = 8;
+% 
+% rx = alpha * dt / (dx^2);
+% ry = alpha * dt / (dy^2);
+% 
+% T_adt = ones(nx, ny) * T_init;
+% 
+% % Initializing Boundary Conditions
+% T_adt(1, :) = T_1;
+% T_adt(:, 1) = T_1;
+% T_adt(:, ny) = T_1;
+% T_adt(nx, :) = T_2;
+% 
+% T_adt_old = T_adt;
+% iteration_count = 0;
+% time_intervals = 200;
+% 
+% while t <= max_time
+%     Temp = T_adt_old;
+% 
+%     % Sweeping in X - Direction
+%     a = (1 + ry);
+%     b = 0.5 * ry;
+%     c = 0.5 * ry;
+% 
+%     T0 = T_1;
+%     Tn = T_1;
+% 
+%     for i = 2:nx-1
+%         d = zeros(1, ny);
+%         for j = 2:ny-1
+%             d(j) = 0.5 * rx * T_adt_old(i-1, j) + (1 - rx) * T_adt_old(i, j) + 0.5 * rx * T_adt_old(i+1, j);
+%         end
+% 
+%         Temp(i, :) = Thomas_algo(a, b, c, d, T0, Tn, ny);
+%     end
+% 
+%     T_adt = Temp;
+% 
+%     % Sweeping in Y Direction
+%     a = 1 + rx;
+%     b = 0.5 * rx;
+%     c = 0.5 * rx;
+% 
+%     T0 = T_1;
+%     Tn = T_2;
+% 
+%     for j = 2:ny-1
+%         d = zeros(1, nx);
+%         for i = 2:nx-1
+%             d(i) = 0.5 * ry * Temp(i, j-1) + (1 - ry) * Temp(i, j) + 0.5 * ry * Temp(i, j+1);
+%         end
+% 
+%         T_adt(:, j) = Thomas_algo(a, b, c, d, T0, Tn, nx);
+%     end
+% 
+%     if max(max(abs(T_adt - T_adt_old))) < Tolerance
+%         disp('Steady State Reached');
+%         break;
+%     end
+% 
+%     t = t + dt;
+%     T_adt_old = T_adt;
+%     iteration_count = iteration_count + 1;
+% 
+%     % Plotting at specific time intervals
+%     if mod(iteration_count, time_intervals) == 0
+%         disp(['Number of iterations in ADI Method: ', num2str(iteration_count)]);
+%         [X, Y] = meshgrid(x, y);
+%         figure;
+%         contourf(X, Y, T_adt, 10, 'LineColor', 'none');
+%         colorbar();
+%         title(['Temperature distribution with time (ADI Method), t = ', num2str(t), ' units']);
+%         xlabel('Along X');
+%         ylabel('Along Y');
+%         axis equal;
+%         grid on;
+%     end
+% end
+% 
+% disp(['Number of total iterations in ADI Method: ', num2str(iteration_count)]);
+
+% Mesh independance
+% Grid Independence Test for Implicit Scheme
+% Different grid sizes to test
+
+grid_points = [10, 15, 21, 32, 45];
+
+figure;
+hold on;
+for g = grid_points
+    x_t = linspace(0, L, g);
+    y_t = linspace(0, B, g);
+    dx = x_t(2) - x_t(1);
+    dy = y_t(2) - y_t(1);
+
+    T = implicit(g);
+    T_plot = T(:, round(g/2)); % Corrected indexing
+
+    
+    plot(x_t, T_plot, 'DisplayName', sprintf('Grid Size: %.6f', x_t(2) - x_t(1)));
+    
+end
+
+hold off;
+title('Temperature Distribution along Centerline');
+xlabel('Along X');
+ylabel('Temperature');
+legend;
+
+figure;
+hold on;
+for g = grid_points
+    x_t = linspace(0, L, g);
+    y_t = linspace(0, B, g);
+    dx = x_t(2) - x_t(1);
+    dy = y_t(2) - y_t(1);
+
+    T = implicit(g);
+    T_plot = T( round(g/2),:); % Corrected indexing
+
+    
+    plot(x_t, T_plot, 'DisplayName', sprintf('Grid Size: %.6f', x_t(2) - x_t(1)));
+    
+end
+
+hold off;
+title('Temperature Distribution along Centerline');
+xlabel('Along Y');
+ylabel('Temperature');
+legend;
+
+function T_i = implicit(grid_size)
+    alpha = 9.7e-5;
+    T_init = 30;
+    T_1 = 50;
+    T_2 = 150;
+    L = 2; % length
+    B = 1; % breadth
+    % Initialize grid and parameters based on the grid size
+    nx = grid_size;
+    ny = grid_size;
+    dx = L / (nx - 1);
+    dy = B / (ny - 1);
+
+    % Initialize temperature field and boundary conditions
+    T_i = ones(nx, ny) * T_init;
+    T_i(1, :) = T_1;
+    T_i(:, 1) = T_1;
+    T_i(:, ny) = T_1;
+    T_i(nx, :) = T_2;
+    max_time = 10000;
+    T_i_old = T_i;
+    t = 0.0;
+    dt = 10; % Adjust the time step as needed
+    Tolerance = 1e-5;
+    rx = alpha * dt / (dx^2);
+    ry = alpha * dt / (dy^2);
+    iteration_count = 0;
+
+    % Perform the implicit scheme simulation
+    while t <= max_time
+        Error = 1;
+
+        while Error > Tolerance
+            for i = 2:nx-1
+                for j = 2:ny-1
+                    T_i(i, j) = (T_i_old(i, j) + rx * (T_i(i-1, j) + T_i(i+1, j)) + ry * (T_i(i, j-1) + T_i(i, j+1))) / (1 + 2 * rx + 2 * ry);
+                end
+            end
+
+            Error = max(max(abs(T_i - T_i_old)));
+            T_i_old = T_i;
+
+            iteration_count = iteration_count + 1;
+        end
+
+        if max(max(abs(T_i - T_i_old))) < Tolerance
+            break;
+        end
+
+        t = t + dt;
+        T_i_old = T_i;
+    end
+end
+
+
+
+% TDMA Function
+function T_tdma = Thomas_algo(a, b, c, d, T0, Tn, n)
+    T_tdma = zeros(1, n);
+    T_tdma(1) = T0;
+    T_tdma(n) = Tn;
+
+    P = zeros(1, n);
+    Q = zeros(1, n);
+
+    P(1) = 0;
+    Q(1) = T0;
+
+    for i = 2:n
+        P(i) = b / (a - c * P(i-1));
+        Q(i) = (d(i) + c * Q(i-1)) / (a - c * P(i-1));
+    end
+
+    Q(n) = Tn;
+
+    for i = n-1:-1:1
+        T_tdma(i) = T_tdma(i+1) * P(i) + Q(i);
+    end
+end
+
+
+
+##### SOURCE END #####
+--></body></html>

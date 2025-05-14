@@ -1,0 +1,265 @@
+<FluentXMLReport>
+<version>
+Fluent
+Version: 2d, dp, pbns, ske (2d, double precision, pressure-based, standard k-epsilon)
+Release: 23.2.0
+Title: 
+</version>
+
+<Models>
+
+Models
+------
+
+   Model                        Settings                              
+   ----------------------------------------------------------------
+   Space                        2D                                    
+   Time                         Steady                                
+   Viscous                      Standard k-epsilon turbulence model   
+   Wall Treatment               Enhanced Wall Treatment               
+   Heat Transfer                Disabled                              
+   Solidification and Melting   Disabled                              
+   Species                      Disabled                              
+   Coupled Dispersed Phase      Disabled                              
+   NOx Pollutants               Disabled                              
+   SOx Pollutants               Disabled                              
+   Soot                         Disabled                              
+   Mercury Pollutants           Disabled                              
+   Structure                    Disabled                              
+   Acoustics                    Disabled                              
+   Eulerian Wall Film           Disabled                              
+   Potential/Electrochemistry   Disabled                              
+   Multiphase                   Disabled                              
+
+</Models>
+
+<MaterialProperties>
+Material Properties
+-------------------
+
+   Material: air (fluid)
+
+      Property               Units      Method     Value(s)     
+      -------------------------------------------------------
+      Density                kg/m^3     constant   1.225        
+      Cp (Specific Heat)     J/(kg K)   constant   1006.43      
+      Thermal Conductivity   W/(m K)    constant   0.0242       
+      Viscosity              kg/(m s)   constant   1.7894e-05   
+      Molecular Weight       kg/kmol    constant   28.966       
+
+   Material: aluminum (solid)
+
+      Property               Units      Method     Value(s)   
+      -----------------------------------------------------
+      Density                kg/m^3     constant   2719       
+      Cp (Specific Heat)     J/(kg K)   constant   871        
+      Thermal Conductivity   W/(m K)    constant   202.4      
+
+</MaterialProperties>
+
+<CellZoneConditions>
+Cell Zone Conditions
+--------------------
+
+   Zones
+
+      name           id   type    
+      -------------------------
+      fluid-inlet    2    fluid   
+      fluid-casing   3    fluid   
+      fluid-rotor    4    fluid   
+
+   Setup Conditions
+
+      fluid-inlet
+
+         Condition       Value   
+         ---------------------
+         Frame Motion?   no      
+
+      fluid-casing
+
+         Condition       Value   
+         ---------------------
+         Frame Motion?   no      
+
+      fluid-rotor
+
+         Condition                                  Value   
+         ------------------------------------------------
+         Frame Motion?                              yes     
+         Reference Frame Rotation Speed [rev/min]   -2500   
+
+</CellZoneConditions>
+
+<BoundaryConditions>
+Boundary Conditions
+-------------------
+
+   Zones
+
+      name                          id   type              
+      --------------------------------------------------
+      wall-20                       20   wall              
+      wall-19                       19   wall              
+      interface-2-non-overlapping   17   wall              
+      interface-1-non-overlapping   18   wall              
+      outlet                        5    pressure-outlet   
+      casing                        6    wall              
+      blades                        7    wall              
+      inlet                         8    pressure-inlet    
+      interface-4                   9    interface         
+      interface-3                   10   interface         
+      interface-2                   11   interface         
+      interface-1                   12   interface         
+
+   Setup Conditions
+
+      wall-20
+
+         Condition                  Value             
+         ------------------------------------------
+         Wall Motion                Stationary Wall   
+         Shear Boundary Condition   No Slip           
+
+      wall-19
+
+         Condition                  Value             
+         ------------------------------------------
+         Wall Motion                Stationary Wall   
+         Shear Boundary Condition   No Slip           
+
+      interface-2-non-overlapping
+
+         Condition                  Value             
+         ------------------------------------------
+         Wall Motion                Stationary Wall   
+         Shear Boundary Condition   No Slip           
+
+      interface-1-non-overlapping
+
+         Condition                  Value             
+         ------------------------------------------
+         Wall Motion                Stationary Wall   
+         Shear Boundary Condition   No Slip           
+
+      outlet
+
+         Condition             Value   
+         ---------------------------
+         Gauge Pressure [Pa]   250     
+
+      casing
+
+         Condition                  Value             
+         ------------------------------------------
+         Wall Motion                Stationary Wall   
+         Shear Boundary Condition   No Slip           
+
+      blades
+
+         Condition                                            Value         
+         ----------------------------------------------------------------
+         Wall Motion                                          Moving Wall   
+         Shear Boundary Condition                             No Slip       
+         Define wall motion relative to adjacent cell zone?   yes           
+         Apply a rotational velocity to this wall?            yes           
+
+      inlet
+
+         Condition   Value   
+         -----------------
+
+      interface-4
+
+         Condition   Value   
+         -----------------
+
+      interface-3
+
+         Condition   Value     
+         -------------------
+                     wall-20   
+
+      interface-2
+
+         Condition   Value                         
+         ---------------------------------------
+                     interface-2-non-overlapping   
+
+      interface-1
+
+         Condition   Value                         
+         ---------------------------------------
+                     interface-1-non-overlapping   
+
+</BoundaryConditions>
+
+<SolverSettings>
+Solver Settings
+---------------
+
+   Equations
+
+      Equation     Solved   
+      -------------------
+      Flow         yes      
+      Turbulence   yes      
+
+   Numerics
+
+      Numeric                         Enabled   
+      ---------------------------------------
+      Absolute Velocity Formulation   yes       
+
+   Pseudo Time Explicit Relaxation Factors
+
+      Variable                     Relaxation Factor   
+      ----------------------------------------------
+      Density                      1                   
+      Body Forces                  1                   
+      Turbulent Kinetic Energy     0.75                
+      Turbulent Dissipation Rate   0.75                
+      Turbulent Viscosity          1                   
+      Explicit Momentum            0.5                 
+      Explicit Pressure            0.5                 
+
+   Linear Solver
+
+      Variable                     Solver Type   Termination Criterion   Residual Reduction Tolerance   
+      -----------------------------------------------------------------------------------------------
+      Flow                         F-Cycle       0.1                                                    
+      Turbulent Kinetic Energy     F-Cycle       0.1                                                    
+      Turbulent Dissipation Rate   F-Cycle       0.1                                                    
+
+   Pressure-Velocity Coupling
+
+      Parameter                               Value     
+      -----------------------------------------------
+      Type                                    Coupled   
+      Pseudo Time Method (Global Time Step)   yes       
+
+   Discretization Scheme
+
+      Variable                     Scheme                
+      ------------------------------------------------
+      Pressure                     Second Order          
+      Momentum                     Second Order Upwind   
+      Turbulent Kinetic Energy     Second Order Upwind   
+      Turbulent Dissipation Rate   Second Order Upwind   
+
+   Solution Limits
+
+      Quantity                                   Limit    
+      -------------------------------------------------
+      Minimum Absolute Pressure [Pa]             1        
+      Maximum Absolute Pressure [Pa]             5e+10    
+      Minimum Static Temperature [K]             1        
+      Maximum Static Temperature [K]             5000     
+      Minimum Turb. Kinetic Energy [m^2/s^2]     1e-14    
+      Minimum Turb. Dissipation Rate [m^2/s^3]   1e-20    
+      Maximum Turb. Viscosity Ratio              100000   
+
+</SolverSettings>
+
+</FluentXMLReport>

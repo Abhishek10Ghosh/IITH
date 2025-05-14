@@ -1,0 +1,680 @@
+# encoding: utf-8
+# 2023 R2
+SetScriptVersion(Version="23.2.142")
+template1 = GetTemplate(TemplateName="Fluid Flow")
+system1 = template1.CreateSystem()
+geometry1 = system1.GetContainer(ComponentName="Geometry")
+geometry1.Edit()
+geometry1.Exit()
+meshComponent1 = system1.GetComponent(Name="Mesh")
+meshComponent1.Refresh()
+mesh1 = system1.GetContainer(ComponentName="Mesh")
+mesh1.Edit()
+mesh1.Exit()
+meshComponent1.Update(AllDependencies=True)
+setupComponent1 = system1.GetComponent(Name="Setup")
+setupComponent1.Refresh()
+setup1 = system1.GetContainer(ComponentName="Setup")
+fluentLauncherSettings1 = setup1.GetFluentLauncherSettings()
+fluentLauncherSettings1.SetEntityProperties(Properties=Set(Precision="Double", EnvPath={}, RunParallel=True))
+setup1.Edit()
+setup1.SendCommand(Command='(cx-gui-do cx-activate-tab-index "NavigationPane*Frame1(TreeTab)" 0)(cx-gui-do cx-activate-tab-index "NavigationPane*Frame1(TreeTab)" 1)')
+setup1.SendCommand(Command='/file/set-tui-version "23.2"(cx-gui-do cx-activate-item "Key Behavioral Changes*PanelButtons*PushButton1(OK)")')
+setup1.SendCommand(Command='(%py-exec "preferences.General.KeyBehavioralChangesMessage.set_state(True)")')
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-tree-selections \"NavigationPane*Frame2*Table1*List_Tree2\" (list \"Setup|General\"))(cx-gui-do cx-set-toggle-button2 \"General*Table1*Table3*CheckButton1(Gravity)\" #t)(cx-gui-do cx-activate-item \"General*Table1*Table3*CheckButton1(Gravity)\")(cx-gui-do cx-set-expression-entry \"General*Table1*Table3*Frame3*Frame1(Gravitational Acceleration)*ExpressionEntry2(Y)\" '(\"-9.81\" . 0))(cx-gui-do cx-activate-item \"General*Table1*Table3*Frame3*Frame1(Gravitational Acceleration)*ExpressionEntry2(Y)\")")
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Ribbon*Frame1*Frame3(Physics)*Table1*Table3(Models)*PushButton4(Viscous)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-toggle-button2 "Viscous Model*Table1*ToggleBox1(Model)*Laminar" #t)(cx-gui-do cx-activate-item "Viscous Model*Table1*ToggleBox1(Model)*Laminar")(cx-gui-do cx-activate-item "Viscous Model*PanelButtons*PushButton1(OK)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Materials"))')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Materials"))(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")')
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-tree-selections \"NavigationPane*Frame2*Table1*List_Tree2\" (list \"Setup|Materials\"))(cx-gui-do cx-set-list-selections \"Materials*Table1*List1(Materials)\" '( 1))(cx-gui-do cx-activate-item \"Materials*Table1*List1(Materials)\")")
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Materials*Table1*ButtonBox2*PushButton1(Create/Edit)")')
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-selections \"Create/Edit Materials*Table2*Table1(Properties)*DropDownList4(Density)\" '( 9))(cx-gui-do cx-activate-item \"Create/Edit Materials*Table2*Table1(Properties)*DropDownList4(Density)\")(cx-gui-do cx-set-real-entry-list \"Create/Edit Materials*RealEntry10\" '( 1))(cx-gui-do cx-set-real-entry-list \"Create/Edit Materials*RealEntry12\" '( 1000))(cx-gui-do cx-set-real-entry-list \"Create/Edit Materials*RealEntry14\" '( 0.01111))(cx-gui-do cx-set-real-entry-list \"Create/Edit Materials*RealEntry16\" '( 1.5e-05))")
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Create/Edit Materials*PanelButtons*PushButton3(Change/Create)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Create/Edit Materials*PanelButtons*PushButton1(Close)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Boundary Conditions|Wall|bottom (wall, id=5)"))')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Boundary Conditions|Wall|bottom (wall, id=5)"))(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Boundary Conditions|Wall|bottom (wall, id=5)"))(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 1)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 2)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 3)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 4)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 5)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 6)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 7)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 8)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 9)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 10)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 1)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 2)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 3)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 4)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 5)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 1)(cx-gui-do cx-activate-item "Wall*PanelButtons*PushButton1(OK)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Wall*PanelButtons*PushButton2(Cancel)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Boundary Conditions|Wall|left (wall, id=6)"))')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Boundary Conditions|Wall|left (wall, id=6)"))(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")')
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-tree-selections \"NavigationPane*Frame2*Table1*List_Tree2\" (list \"Setup|Boundary Conditions|Wall|left (wall, id=6)\"))(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 1)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 2)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 3)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 4)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 5)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 6)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 7)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 8)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 9)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 10)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2\" 1)(cx-gui-do cx-activate-tab-index \"Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2\" 2)(cx-gui-do cx-activate-tab-index \"Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2\" 3)(cx-gui-do cx-activate-tab-index \"Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2\" 4)(cx-gui-do cx-activate-tab-index \"Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2\" 5)(cx-gui-do cx-activate-tab-index \"Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2\" 0)(cx-gui-do cx-activate-tab-index \"Wall*Frame4\" 1)(cx-gui-do cx-enable-apply-button \"Wall\")(cx-gui-do cx-set-toggle-button2 \"Wall*Frame4*Frame2(Thermal)*Frame1*Frame1(Thermal Conditions)*ToggleBox1*Temperature\" #t)(cx-gui-do cx-activate-item \"Wall*Frame4*Frame2(Thermal)*Frame1*Frame1(Thermal Conditions)*ToggleBox1*Temperature\")(cx-gui-do cx-set-expression-entry \"Wall*Frame4*Frame2(Thermal)*Frame1*Frame1(Thermal Conditions)*Table3*Table1*Table1*ExpressionEntry1(Temperature)\" '(\"305\" . 0))(cx-gui-do cx-activate-item \"Wall*PanelButtons*PushButton1(OK)\")")
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Wall*PanelButtons*PushButton2(Cancel)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Boundary Conditions|Wall|right (wall, id=7)"))')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Boundary Conditions|Wall|right (wall, id=7)"))(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Boundary Conditions|Wall|right (wall, id=7)"))(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 1)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 2)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 3)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 4)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 5)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 6)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 7)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 8)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 9)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 10)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 1)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 2)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 3)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 4)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 5)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 1)(cx-gui-do cx-enable-apply-button "Wall")(cx-gui-do cx-set-toggle-button2 "Wall*Frame4*Frame2(Thermal)*Frame1*Frame1(Thermal Conditions)*ToggleBox1*Temperature" #t)(cx-gui-do cx-activate-item "Wall*Frame4*Frame2(Thermal)*Frame1*Frame1(Thermal Conditions)*ToggleBox1*Temperature")(cx-gui-do cx-activate-item "Wall*PanelButtons*PushButton1(OK)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Wall*PanelButtons*PushButton2(Cancel)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Boundary Conditions|Wall|top (wall, id=8)"))')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Boundary Conditions|Wall|top (wall, id=8)"))(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Boundary Conditions|Wall|top (wall, id=8)"))(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 1)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 2)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 3)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 4)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 5)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 6)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 7)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 8)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 9)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 10)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 1)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 2)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 3)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 4)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 5)(cx-gui-do cx-activate-tab-index "Wall*Frame4*Frame8(Wall Film)*Frame1*Frame2" 0)(cx-gui-do cx-activate-tab-index "Wall*Frame4" 1)(cx-gui-do cx-enable-apply-button "Wall")(cx-gui-do cx-set-toggle-button2 "Wall*Frame4*Frame2(Thermal)*Frame1*Frame1(Thermal Conditions)*ToggleBox1*Temperature" #t)(cx-gui-do cx-activate-item "Wall*Frame4*Frame2(Thermal)*Frame1*Frame1(Thermal Conditions)*ToggleBox1*Temperature")(cx-gui-do cx-activate-item "Wall*PanelButtons*PushButton1(OK)")')
+setup1.SendCommand(Command='(cx-gui-do cx-enable-apply-button "Wall")(cx-gui-do cx-set-toggle-button2 "Wall*Frame4*Frame2(Thermal)*Frame1*Frame1(Thermal Conditions)*ToggleBox1*Heat Flux" #t)(cx-gui-do cx-activate-item "Wall*Frame4*Frame2(Thermal)*Frame1*Frame1(Thermal Conditions)*ToggleBox1*Heat Flux")(cx-gui-do cx-activate-item "Wall*PanelButtons*PushButton1(OK)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Wall*PanelButtons*PushButton2(Cancel)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Monitors|Residual"))')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Monitors|Residual"))(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Monitors|Residual"))(cx-gui-do cx-activate-item "Residual Monitors*PanelButtons*PushButton2(Cancel)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Setup|Materials|Fluid"))')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Materials*Table1*ButtonBox2*PushButton1(Create/Edit)")')
+setup1.SendCommand(Command="(cx-gui-do cx-set-real-entry-list \"Create/Edit Materials*RealEntry48\" '( 3.4e-05))(cx-gui-do cx-set-real-entry-list \"Create/Edit Materials*RealEntry48\" '( 0.00034))")
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Create/Edit Materials*PanelButtons*PushButton3(Change/Create)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Create/Edit Materials*PanelButtons*PushButton1(Close)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Monitors|Residual"))')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Monitors|Residual"))(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")')
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-tree-selections \"NavigationPane*Frame2*Table1*List_Tree2\" (list \"Solution|Monitors|Residual\"))(cx-gui-do cx-set-real-entry-list \"Residual Monitors*Table1*Table2*Table1*Table1(Equations)*RealEntry11\" '( 0.0001))(cx-gui-do cx-set-real-entry-list \"Residual Monitors*Table1*Table2*Table1*Table1(Equations)*RealEntry17\" '( 0.0001))(cx-gui-do cx-set-real-entry-list \"Residual Monitors*Table1*Table2*Table1*Table1(Equations)*RealEntry23\" '( 0.0001))(cx-gui-do cx-activate-item \"Residual Monitors*PanelButtons*PushButton1(OK)\")")
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Initialization"))')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Initialization"))(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Initialization"))(cx-gui-do cx-set-toggle-button2 "Solution Initialization*Table1*ToggleBox3(Initialization Methods)*Standard Initialization" #t)(cx-gui-do cx-activate-item "Solution Initialization*Table1*ToggleBox3(Initialization Methods)*Standard Initialization")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Solution Initialization*Table1*Frame9*PushButton1(Initialize)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Run Calculation"))')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Run Calculation"))(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Run Calculation"))(cx-gui-do cx-set-integer-entry "Run Calculation*Table1*Table3(Parameters)*Table1*Table1*IntegerEntry1(Number of Iterations)" 1000)(cx-gui-do cx-activate-item "Run Calculation*Table1*Table3(Parameters)*Table1*Table1*IntegerEntry1(Number of Iterations)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Run Calculation*Table1*Table6(Solution Advancement)*Table1*PushButton1(Calculate)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Information*OK")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "ToolBar*Copy*copytoclipboard")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Results|Graphics|Contours"))')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Results|Graphics|Contours"))(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Results|Graphics|Contours"))')
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-selections \"Contours*Table1*Frame3*Table1*DropDownList1(Contours of)\" '( 2))")
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Contours*Table1*Frame3*Table1*DropDownList1(Contours of)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Contours*PanelButtons*PushButton1(OK)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "ToolBar*Copy*copytoclipboard")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Contours*PanelButtons*PushButton2(Cancel)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Results|Graphics|Contours"))(cx-gui-do cx-list-tree-right-click "NavigationPane*Frame2*Table1*List_Tree2" )')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "MenuBar*PopupMenuTree-Contours*New...")')
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-selections \"Contours*Table1*Frame3*Table1*DropDownList1(Contours of)\" '( 3))")
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Contours*Table1*Frame3*Table1*DropDownList1(Contours of)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Contours*PanelButtons*PushButton1(OK)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Contours*PanelButtons*PushButton2(Cancel)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "ToolBar*Copy*copytoclipboard")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "MenuBar*FileMenu*Close Fluent")(cx-gui-do cx-activate-item "Settings have changed!*PanelButtons*PushButton1(OK)")')
+results1 = system1.GetContainer(ComponentName="Results")
+results1.Edit()
+results1.SendCommand(Command="""VIEW:View 1
+  Camera Mode = User Specified
+  CAMERA:
+    Option = Pivot Point and Quaternion
+    Pivot Point = 0.05, 0.05, 0
+    Scale = 18.1818
+    Pan = 0, 0
+    Rotation Quaternion = 0, 0, 0, 1
+    
+  END
+
+END
+
+VIEW:View 1
+  Light Angle = 50, 110
+END
+
+VIEW:View 2
+  Light Angle = 50, 110
+END
+
+VIEW:View 3
+  Light Angle = 50, 110
+END
+
+VIEW:View 4
+  Light Angle = 50, 110
+END
+
+> update
+> autolegend plot=/LINE:Line 1, view=VIEW:View 1""")
+results1.SendCommand(Command="""LINE:Line 1
+Apply Instancing Transform = On
+Colour = 1, 1, 0
+Colour Map = Default Colour Map
+Colour Mode = Constant
+Colour Scale = Linear
+Colour Variable = Pressure
+Colour Variable Boundary Values = Conservative
+Domain List = /DOMAIN GROUP:All Domains
+Draw Contours = Off
+Instancing Transform = /DEFAULT INSTANCE TRANSFORM:Default Transform
+Line Samples = 10
+Line Type = Sample
+Line Width = 2
+Max = 0.0
+Min = 0.0
+Number of Contours = 11
+Option = Two Points
+Point 1 = 0.05 [m], 0 [m], 0 [m]
+Point 2 = 0.05 [m], 0.1 [m], 0 [m]
+Range = Global
+  OBJECT VIEW TRANSFORM:
+  Apply Reflection = Off
+  Apply Rotation = Off
+  Apply Scale = Off
+  Apply Translation = Off
+  Principal Axis = Z
+  Reflection Plane Option = XY Plane
+  Rotation Angle = 0.0 [degree]
+  Rotation Axis From = 0 [m], 0 [m], 0 [m]
+  Rotation Axis To = 0 [m], 0 [m], 0 [m]
+  Rotation Axis Type = Principal Axis
+  Scale Vector = 1 , 1 , 1 
+  Translation Vector = 0 [m], 0 [m], 0 [m]
+  X = 0.0 [m]
+  Y = 0.0 [m]
+  Z = 0.0 [m]
+  END
+END""")
+results1.SendCommand(Command="""# Sending visibility action from ViewUtilities
+>show /LINE:Line 1, view=/VIEW:View 1""")
+results1.SendCommand(Command="""CHART:Chart 1
+Chart Axes Font = Tahoma, 10, False, False, False, False
+Chart Axes Titles Font = Tahoma, 10, True, False, False, False
+Chart Grid Line Width = 1
+Chart Horizontal Grid = On
+Chart Legend = On
+Chart Legend Font = Tahoma, 8, False, False, False, False
+Chart Legend Inside = Outside Chart
+Chart Legend Justification = Center
+Chart Legend Position = Bottom
+Chart Legend Width Height = 0.2 , 0.4 
+Chart Legend X Justification = Right
+Chart Legend XY Position = 0.73 , 0.275 
+Chart Legend Y Justification = Center
+Chart Line Width = 2
+Chart Lines Order = Series 1,Chart Line 1
+Chart Minor Grid = Off
+Chart Minor Grid Line Width = 1
+Chart Symbol Size = 4
+Chart Title = Title
+Chart Title Font = Tahoma, 12, True, False, False, False
+Chart Title Visibility = On
+Chart Type = XY
+Chart Vertical Grid = On
+Chart X Axis Automatic Number Formatting = On
+Chart X Axis Label = X Axis <units>
+Chart X Axis Number Format = %10.3e
+Chart Y Axis Automatic Number Formatting = On
+Chart Y Axis Label = Y Axis <units>
+Chart Y Axis Number Format = %10.3e
+Default Chart X Variable = Temperature
+Default Chart Y Variable = Y
+Default Difference Line Calculation = From Points
+Default Histogram Y Axis Weighting = None
+Default Time Chart Variable = Pressure
+Default Time Chart X Expression = Time
+Default Time Variable Absolute Value = Off
+Default Time Variable Boundary Values = Conservative
+Default X Variable Absolute Value = Off
+Default X Variable Boundary Values = Conservative
+Default Y Variable Absolute Value = Off
+Default Y Variable Boundary Values = Conservative
+FFT Full Input Range = On
+FFT Max = 0.0
+FFT Min = 0.0
+FFT Subtract Mean = Off
+FFT Window Type = Hanning
+FFT X Function = Frequency
+FFT Y Function = Power Spectral Density
+Histogram Automatic Divisions = Automatic
+Histogram Divisions = -1.0,1.0
+Histogram Divisions Count = 10
+Histogram Y Axis Value = Count
+Is FFT Chart = Off
+Max X = 1.0
+Max Y = 1.0
+Min X = -1.0
+Min Y = -1.0
+Use Data For X Axis Labels = On
+Use Data For Y Axis Labels = On
+X Axis Automatic Range = On
+X Axis Inverted = Off
+X Axis Logarithmic Scaling = Off
+Y Axis Automatic Range = On
+Y Axis Inverted = Off
+Y Axis Logarithmic Scaling = Off
+  CHART SERIES:Series 1
+  Chart Line Custom Data Selection = Off
+  Chart Line Filename =  
+  Chart Series Type = Regular
+  Chart X Variable = Chart Count
+  Chart Y Variable = Density
+  Histogram Y Axis Weighting = None
+  Location = /LINE:Line 1
+  Monitor Data Filename =  
+  Monitor Data Source = Case
+  Monitor Data X Variable Absolute Value = Off
+  Monitor Data Y Variable Absolute Value = Off
+  Operating Point Data Case = Case FFF
+  Operating Point Data Filename =  
+  Operating Point Data Source = File
+  Series Name = Series 1
+  Time Chart Expression = Time
+  Time Chart Type = Point
+  Time Chart Variable = Density
+  Time Chart X Expression = Time
+  Time Variable Absolute Value = Off
+  Time Variable Boundary Values = Conservative
+  X Variable Absolute Value = Off
+  X Variable Boundary Values = Conservative
+  Y Variable Absolute Value = Off
+  Y Variable Boundary Values = Conservative
+    CHART LINE:Chart Line 1
+    Auto Chart Line Colour = On
+    Auto Chart Symbol Colour = On
+    Chart FFT Line Type = Bars
+    Chart Line Colour = 1.0, 0.0, 0.0
+    Chart Line Style = Automatic
+    Chart Line Type = Lines
+    Chart Line Visibility = On
+    Chart Symbol Colour = 0.0, 1.0, 0.0
+    Chart Symbol Style = Automatic
+    Fill Area = On
+    Fill Area Options = Automatic
+    Is Valid = True
+    Line Name = Series 1
+    Use Automatic Line Naming = On
+    END
+  END
+  OBJECT REPORT OPTIONS:
+      Report Caption = 
+  END
+END""")
+results1.SendCommand(Command="> autolegend plot=/LINE:Line 2, view=VIEW:View 1")
+results1.SendCommand(Command="""LINE:Line 2
+Apply Instancing Transform = On
+Colour = 1, 1, 0
+Colour Map = Default Colour Map
+Colour Mode = Constant
+Colour Scale = Linear
+Colour Variable = Pressure
+Colour Variable Boundary Values = Conservative
+Domain List = /DOMAIN GROUP:All Domains
+Draw Contours = Off
+Instancing Transform = /DEFAULT INSTANCE TRANSFORM:Default Transform
+Line Samples = 10
+Line Type = Sample
+Line Width = 2
+Max = 0.0
+Min = 0.0
+Number of Contours = 11
+Option = Two Points
+Point 1 = 0 [m], 0.05 [m], 0 [m]
+Point 2 = 0.1 [m], 0.05 [m], 0 [m]
+Range = Global
+  OBJECT VIEW TRANSFORM:
+  Apply Reflection = Off
+  Apply Rotation = Off
+  Apply Scale = Off
+  Apply Translation = Off
+  Principal Axis = Z
+  Reflection Plane Option = XY Plane
+  Rotation Angle = 0.0 [degree]
+  Rotation Axis From = 0 [m], 0 [m], 0 [m]
+  Rotation Axis To = 0 [m], 0 [m], 0 [m]
+  Rotation Axis Type = Principal Axis
+  Scale Vector = 1 , 1 , 1 
+  Translation Vector = 0 [m], 0 [m], 0 [m]
+  X = 0.0 [m]
+  Y = 0.0 [m]
+  Z = 0.0 [m]
+  END
+END""")
+results1.SendCommand(Command="""# Sending visibility action from ViewUtilities
+>show /LINE:Line 2, view=/VIEW:View 1""")
+results1.SendCommand(Command="""# Sending visibility action from ViewUtilities
+>hide /LINE:Line 1, view=/VIEW:View 1""")
+results1.SendCommand(Command="""CHART:Chart 2
+Chart Axes Font = Tahoma, 10, False, False, False, False
+Chart Axes Titles Font = Tahoma, 10, True, False, False, False
+Chart Grid Line Width = 1
+Chart Horizontal Grid = On
+Chart Legend = On
+Chart Legend Font = Tahoma, 8, False, False, False, False
+Chart Legend Inside = Outside Chart
+Chart Legend Justification = Center
+Chart Legend Position = Bottom
+Chart Legend Width Height = 0.2 , 0.4 
+Chart Legend X Justification = Right
+Chart Legend XY Position = 0.73 , 0.275 
+Chart Legend Y Justification = Center
+Chart Line Width = 2
+Chart Lines Order = Series 1,Chart Line 1
+Chart Minor Grid = Off
+Chart Minor Grid Line Width = 1
+Chart Symbol Size = 4
+Chart Title = Title
+Chart Title Font = Tahoma, 12, True, False, False, False
+Chart Title Visibility = On
+Chart Type = XY
+Chart Vertical Grid = On
+Chart X Axis Automatic Number Formatting = On
+Chart X Axis Label = X Axis <units>
+Chart X Axis Number Format = %10.3e
+Chart Y Axis Automatic Number Formatting = On
+Chart Y Axis Label = Y Axis <units>
+Chart Y Axis Number Format = %10.3e
+Default Chart X Variable = X
+Default Chart Y Variable = Temperature
+Default Difference Line Calculation = From Points
+Default Histogram Y Axis Weighting = None
+Default Time Chart Variable = Pressure
+Default Time Chart X Expression = Time
+Default Time Variable Absolute Value = Off
+Default Time Variable Boundary Values = Conservative
+Default X Variable Absolute Value = Off
+Default X Variable Boundary Values = Conservative
+Default Y Variable Absolute Value = Off
+Default Y Variable Boundary Values = Conservative
+FFT Full Input Range = On
+FFT Max = 0.0
+FFT Min = 0.0
+FFT Subtract Mean = Off
+FFT Window Type = Hanning
+FFT X Function = Frequency
+FFT Y Function = Power Spectral Density
+Histogram Automatic Divisions = Automatic
+Histogram Divisions = -1.0,1.0
+Histogram Divisions Count = 10
+Histogram Y Axis Value = Count
+Is FFT Chart = Off
+Max X = 1.0
+Max Y = 1.0
+Min X = -1.0
+Min Y = -1.0
+Use Data For X Axis Labels = On
+Use Data For Y Axis Labels = On
+X Axis Automatic Range = On
+X Axis Inverted = Off
+X Axis Logarithmic Scaling = Off
+Y Axis Automatic Range = On
+Y Axis Inverted = Off
+Y Axis Logarithmic Scaling = Off
+  CHART SERIES:Series 1
+  Chart Line Custom Data Selection = Off
+  Chart Line Filename =  
+  Chart Series Type = Regular
+  Chart X Variable = Chart Count
+  Chart Y Variable = Density
+  Histogram Y Axis Weighting = None
+  Location = /LINE:Line 2
+  Monitor Data Filename =  
+  Monitor Data Source = Case
+  Monitor Data X Variable Absolute Value = Off
+  Monitor Data Y Variable Absolute Value = Off
+  Operating Point Data Case = Case FFF
+  Operating Point Data Filename =  
+  Operating Point Data Source = File
+  Series Name = Series 1
+  Time Chart Expression = Time
+  Time Chart Type = Point
+  Time Chart Variable = Density
+  Time Chart X Expression = Time
+  Time Variable Absolute Value = Off
+  Time Variable Boundary Values = Conservative
+  X Variable Absolute Value = Off
+  X Variable Boundary Values = Conservative
+  Y Variable Absolute Value = Off
+  Y Variable Boundary Values = Conservative
+    CHART LINE:Chart Line 1
+    Auto Chart Line Colour = On
+    Auto Chart Symbol Colour = On
+    Chart FFT Line Type = Bars
+    Chart Line Colour = 1.0, 0.0, 0.0
+    Chart Line Style = Automatic
+    Chart Line Type = Lines
+    Chart Line Visibility = On
+    Chart Symbol Colour = 0.0, 1.0, 0.0
+    Chart Symbol Style = Automatic
+    Fill Area = On
+    Fill Area Options = Automatic
+    Is Valid = True
+    Line Name = Series 1
+    Use Automatic Line Naming = On
+    END
+  END
+  OBJECT REPORT OPTIONS:
+      Report Caption = 
+  END
+END""")
+results1.SendCommand(Command="""CHART:Chart 2
+Chart Axes Font = Tahoma, 10, False, False, False, False
+Chart Axes Titles Font = Tahoma, 10, True, False, False, False
+Chart Grid Line Width = 1
+Chart Horizontal Grid = On
+Chart Legend = On
+Chart Legend Font = Tahoma, 8, False, False, False, False
+Chart Legend Inside = Outside Chart
+Chart Legend Justification = Center
+Chart Legend Position = Bottom
+Chart Legend Width Height = 0.2 , 0.4 
+Chart Legend X Justification = Right
+Chart Legend XY Position = 0.73 , 0.275 
+Chart Legend Y Justification = Center
+Chart Line Width = 2
+Chart Lines Order = Series 1,Chart Line 1
+Chart Minor Grid = Off
+Chart Minor Grid Line Width = 1
+Chart Symbol Size = 4
+Chart Title = Title
+Chart Title Font = Tahoma, 12, True, False, False, False
+Chart Title Visibility = On
+Chart Type = XY
+Chart Vertical Grid = On
+Chart X Axis Automatic Number Formatting = On
+Chart X Axis Label = X Axis <units>
+Chart X Axis Number Format = %10.3e
+Chart Y Axis Automatic Number Formatting = On
+Chart Y Axis Label = Y Axis <units>
+Chart Y Axis Number Format = %10.3e
+Default Chart X Variable = X
+Default Chart Y Variable = Velocity v
+Default Difference Line Calculation = From Points
+Default Histogram Y Axis Weighting = None
+Default Time Chart Variable = Pressure
+Default Time Chart X Expression = Time
+Default Time Variable Absolute Value = Off
+Default Time Variable Boundary Values = Conservative
+Default X Variable Absolute Value = Off
+Default X Variable Boundary Values = Conservative
+Default Y Variable Absolute Value = Off
+Default Y Variable Boundary Values = Conservative
+FFT Full Input Range = On
+FFT Max = 0.0
+FFT Min = 0.0
+FFT Subtract Mean = Off
+FFT Window Type = Hanning
+FFT X Function = Frequency
+FFT Y Function = Power Spectral Density
+Histogram Automatic Divisions = Automatic
+Histogram Divisions = -1.0,1.0
+Histogram Divisions Count = 10
+Histogram Y Axis Value = Count
+Is FFT Chart = Off
+Max X = 1.0
+Max Y = 1.0
+Min X = -1.0
+Min Y = -1.0
+Use Data For X Axis Labels = On
+Use Data For Y Axis Labels = On
+X Axis Automatic Range = On
+X Axis Inverted = Off
+X Axis Logarithmic Scaling = Off
+Y Axis Automatic Range = On
+Y Axis Inverted = Off
+Y Axis Logarithmic Scaling = Off
+  CHART SERIES:Series 1
+  Chart Line Custom Data Selection = Off
+  Chart Line Filename =  
+  Chart Series Type = Regular
+  Chart X Variable = Chart Count
+  Chart Y Variable = Density
+  Histogram Y Axis Weighting = None
+  Location = /LINE:Line 2
+  Monitor Data Filename =  
+  Monitor Data Source = Case
+  Monitor Data X Variable Absolute Value = Off
+  Monitor Data Y Variable Absolute Value = Off
+  Operating Point Data Case = Case FFF
+  Operating Point Data Filename =  
+  Operating Point Data Source = File
+  Series Name = Series 1
+  Time Chart Expression = Time
+  Time Chart Type = Point
+  Time Chart Variable = Density
+  Time Chart X Expression = Time
+  Time Variable Absolute Value = Off
+  Time Variable Boundary Values = Conservative
+  X Variable Absolute Value = Off
+  X Variable Boundary Values = Conservative
+  Y Variable Absolute Value = Off
+  Y Variable Boundary Values = Conservative
+    CHART LINE:Chart Line 1
+    Auto Chart Line Colour = On
+    Auto Chart Symbol Colour = On
+    Chart FFT Line Type = Bars
+    Chart Line Colour = 1.0, 0.0, 0.0
+    Chart Line Style = Automatic
+    Chart Line Type = Lines
+    Chart Line Visibility = On
+    Chart Symbol Colour = 0.0, 1.0, 0.0
+    Chart Symbol Style = Automatic
+    Fill Area = On
+    Fill Area Options = Automatic
+    Is Valid = True
+    Line Name = Series 1
+    Use Automatic Line Naming = On
+    END
+  END
+  OBJECT REPORT OPTIONS:
+      Report Caption = 
+  END
+END""")
+results1.SendCommand(Command="""CHART:Chart 2
+Chart Axes Font = Tahoma, 10, False, False, False, False
+Chart Axes Titles Font = Tahoma, 10, True, False, False, False
+Chart Grid Line Width = 1
+Chart Horizontal Grid = On
+Chart Legend = On
+Chart Legend Font = Tahoma, 8, False, False, False, False
+Chart Legend Inside = Outside Chart
+Chart Legend Justification = Center
+Chart Legend Position = Bottom
+Chart Legend Width Height = 0.2 , 0.4 
+Chart Legend X Justification = Right
+Chart Legend XY Position = 0.73 , 0.275 
+Chart Legend Y Justification = Center
+Chart Line Width = 2
+Chart Lines Order = Series 1,Chart Line 1
+Chart Minor Grid = Off
+Chart Minor Grid Line Width = 1
+Chart Symbol Size = 4
+Chart Title = Title
+Chart Title Font = Tahoma, 12, True, False, False, False
+Chart Title Visibility = On
+Chart Type = XY
+Chart Vertical Grid = On
+Chart X Axis Automatic Number Formatting = On
+Chart X Axis Label = X Axis <units>
+Chart X Axis Number Format = %10.3e
+Chart Y Axis Automatic Number Formatting = On
+Chart Y Axis Label = Y Axis <units>
+Chart Y Axis Number Format = %10.3e
+Default Chart X Variable = Velocity u
+Default Chart Y Variable = Y
+Default Difference Line Calculation = From Points
+Default Histogram Y Axis Weighting = None
+Default Time Chart Variable = Pressure
+Default Time Chart X Expression = Time
+Default Time Variable Absolute Value = Off
+Default Time Variable Boundary Values = Conservative
+Default X Variable Absolute Value = Off
+Default X Variable Boundary Values = Conservative
+Default Y Variable Absolute Value = Off
+Default Y Variable Boundary Values = Conservative
+FFT Full Input Range = On
+FFT Max = 0.0
+FFT Min = 0.0
+FFT Subtract Mean = Off
+FFT Window Type = Hanning
+FFT X Function = Frequency
+FFT Y Function = Power Spectral Density
+Histogram Automatic Divisions = Automatic
+Histogram Divisions = -1.0,1.0
+Histogram Divisions Count = 10
+Histogram Y Axis Value = Count
+Is FFT Chart = Off
+Max X = 1.0
+Max Y = 1.0
+Min X = -1.0
+Min Y = -1.0
+Use Data For X Axis Labels = On
+Use Data For Y Axis Labels = On
+X Axis Automatic Range = On
+X Axis Inverted = Off
+X Axis Logarithmic Scaling = Off
+Y Axis Automatic Range = On
+Y Axis Inverted = Off
+Y Axis Logarithmic Scaling = Off
+  CHART SERIES:Series 1
+  Chart Line Custom Data Selection = Off
+  Chart Line Filename =  
+  Chart Series Type = Regular
+  Chart X Variable = Chart Count
+  Chart Y Variable = Density
+  Histogram Y Axis Weighting = None
+  Location = /LINE:Line 1
+  Monitor Data Filename =  
+  Monitor Data Source = Case
+  Monitor Data X Variable Absolute Value = Off
+  Monitor Data Y Variable Absolute Value = Off
+  Operating Point Data Case = Case FFF
+  Operating Point Data Filename =  
+  Operating Point Data Source = File
+  Series Name = Series 1
+  Time Chart Expression = Time
+  Time Chart Type = Point
+  Time Chart Variable = Density
+  Time Chart X Expression = Time
+  Time Variable Absolute Value = Off
+  Time Variable Boundary Values = Conservative
+  X Variable Absolute Value = Off
+  X Variable Boundary Values = Conservative
+  Y Variable Absolute Value = Off
+  Y Variable Boundary Values = Conservative
+    CHART LINE:Chart Line 1
+    Auto Chart Line Colour = On
+    Auto Chart Symbol Colour = On
+    Chart FFT Line Type = Bars
+    Chart Line Colour = 1.0, 0.0, 0.0
+    Chart Line Style = Automatic
+    Chart Line Type = Lines
+    Chart Line Visibility = On
+    Chart Symbol Colour = 0.0, 1.0, 0.0
+    Chart Symbol Style = Automatic
+    Fill Area = On
+    Fill Area Options = Automatic
+    Is Valid = True
+    Line Name = Series 1
+    Use Automatic Line Naming = On
+    END
+  END
+  OBJECT REPORT OPTIONS:
+      Report Caption = 
+  END
+END""")
+fluentLauncherSettings1.SetEntityProperties(Properties=Set(EnvPath={}))
+setup1.Edit()
+setup1.SendCommand(Command='(cx-gui-do cx-activate-tab-index "NavigationPane*Frame1(TreeTab)" 0)(cx-gui-do cx-activate-tab-index "NavigationPane*Frame1(TreeTab)" 1)')
+setup1.SendCommand(Command='/file/set-tui-version "23.2"(cx-gui-do cx-activate-item "Key Behavioral Changes*PanelButtons*PushButton1(OK)")')
+setup1.SendCommand(Command='(%py-exec "preferences.General.KeyBehavioralChangesMessage.set_state(True)")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Calculation Activities"))')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Calculation Activities"))(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")')
+setup1.SendCommand(Command='(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Calculation Activities"))(cx-use-window-id 51)(cx-use-window-id 51)')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Ribbon*Frame1*Frame5(Solution)*Table1*Table3(Initialization)*PushButton5(Initialize)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Ribbon*Frame1*Frame5(Solution)*Table1*Table3(Run Calculation)*PushButton7(Calculate)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Information*OK")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Ribbon*Frame1*Frame6(Results)*Table1*Table3(Reports)*PushButton2(Fluxes)")')
+setup1.SendCommand(Command="(cx-gui-do cx-set-toggle-button2 \"Flux Reports*Table2*Table1*ToggleBox1(Options)*Total Heat Transfer Rate\" #t)(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table1*ToggleBox1(Options)*Total Heat Transfer Rate\")(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 2 3))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-activate-item \"Flux Reports*PanelButtons*PushButton1(OK)\")")
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 2))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-activate-item \"Flux Reports*PanelButtons*PushButton1(OK)\")")
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 2 3))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 3))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-activate-item \"Flux Reports*PanelButtons*PushButton1(OK)\")")
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 3 4))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 4))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-activate-item \"Flux Reports*PanelButtons*PushButton1(OK)\")")
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 0 4))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 0))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-activate-item \"Flux Reports*PanelButtons*PushButton1(OK)\")")
+setup1.SendCommand(Command="(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 0 2))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 0 2 3))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 2 3))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 3))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-set-list-selections \"Flux Reports*Table2*Table2*List2(Boundaries)\" '( 2 3))(cx-gui-do cx-activate-item \"Flux Reports*Table2*Table2*List2(Boundaries)\")(cx-gui-do cx-activate-item \"Flux Reports*PanelButtons*PushButton1(OK)\")")
+Save(Overwrite=True)
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "Flux Reports*PanelButtons*PushButton2(Cancel)")')
+setup1.SendCommand(Command='(cx-gui-do cx-activate-item "MenuBar*FileMenu*Close Fluent")')
+results1.Exit()
+Save(Overwrite=True)

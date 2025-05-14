@@ -1,0 +1,582 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>CFD_Assign2</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-11-29"><meta name="DC.source" content="CFD_Assign2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">% Abhishek Ghosh</span>
+<span class="comment">% ME21BTECH11001</span>
+
+<span class="comment">% Given parameters</span>
+L = 1;
+nx = 31;
+ny = 31;
+
+x = linspace(0, L, nx);
+y = linspace(0, L, ny);
+
+dx = x(2) - x(1);
+dy = y(2) - y(1);
+beta = dx / dy;
+Tolerance = 1e-4;
+
+<span class="comment">% Gauss Siedel Method</span>
+
+<span class="comment">% Coefficient Matrix</span>
+theta = zeros(nx, ny);
+theta_old = theta;
+
+theta(nx, :) = 0;
+theta(:, ny) = 0;
+
+it_gs = 0;
+err_gs = 1;
+tol_gs = 1e-4;
+
+<span class="keyword">while</span> err_gs &gt; tol_gs
+    <span class="keyword">for</span> i = 2:nx-1
+        <span class="keyword">for</span> j = 2:ny-1
+            theta(i, j) = 0.5 * (dx^2 + theta_old(i+1,j) + theta(i-1, j) + beta^2*theta_old(i, j+1) + beta^2*theta(i, j-1)) / (1 + beta^2);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    theta(2:end, 1) = theta(2:end, 2);
+    theta(1, 1:end-1) = theta(2, 1:end-1);
+
+    err_gs = max(max(abs(theta - theta_old)));
+    it_gs = it_gs + 1;
+    theta_old = theta;
+<span class="keyword">end</span>
+
+fprintf(<span class="string">'No. of iterations in Gauss-Seidel Method: %d\n'</span>, it_gs);
+
+[X_gs, Y_gs] = meshgrid(x, y);
+
+figure;
+contourf(X_gs, Y_gs, theta, 20, <span class="string">'LineColor'</span>, <span class="string">'none'</span>);
+colorbar();
+title(<span class="string">'Steady-State Temp Distribution in Square Slab (Contour Plot) - Gauss Seidel'</span>);
+xlabel(<span class="string">'Along X'</span>);
+ylabel(<span class="string">'Along Y'</span>);
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+<span class="comment">% Gauss Siedel with Successive Over-Relaxation (SOR)</span>
+theta = zeros(nx, ny);
+theta_old = theta;
+
+theta(1, :) = 0;
+theta(:, ny) = 0;
+
+it_sor = 0;
+err_sor = 1;
+tol_sor = 1e-4;
+alpha_sor = 1.8;
+
+<span class="keyword">while</span> err_sor &gt; tol_sor
+    <span class="keyword">for</span> i = 2:nx-1
+        <span class="keyword">for</span> j = 2:ny-1
+            theta(i, j) = (1 - alpha_sor)*theta_old(i,j) + (alpha_sor*0.5*(dx^2 + theta_old(i+1,j) + theta(i-1, j) + (beta^2)*theta_old(i, j+1) + (beta^2)*theta(i, j-1))) / (1 + beta^2);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    theta(2:end, 1) = theta(2:end, 2);
+    theta(1, 1:end-1) = theta(2, 1:end-1);
+
+    err_sor = max(max(abs(theta - theta_old)));
+    it_sor = it_sor + 1;
+    theta_old = theta;
+<span class="keyword">end</span>
+
+fprintf(<span class="string">'No. of iterations in Gauss-Seidel Method with SOR: %d\n'</span>, it_sor);
+
+
+<span class="comment">% Gauss Siedel with Under-Relaxation (UR)</span>
+theta = zeros(nx, ny);
+theta_old = theta;
+
+theta(1, :) = 0;
+theta(:, ny) = 0;
+
+it_ur = 0;
+err_ur = 1;
+tol_ur = 1e-4;
+alpha_ur = 0.6;
+
+<span class="keyword">while</span> err_ur &gt; tol_ur
+    <span class="keyword">for</span> i = 2:nx-1
+        <span class="keyword">for</span> j = 2:ny-1
+            theta(i, j) = (1 - alpha_ur)*theta_old(i,j) + (alpha_ur*0.5*(dx^2 + theta_old(i+1,j) + theta(i-1, j) + (beta^2)*theta_old(i, j+1) + (beta^2)*theta(i, j-1))) / (1 + beta^2);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    theta(2:end, 1) = theta(2:end, 2);
+    theta(1, 1:end-1) = theta(2, 1:end-1);
+
+    err_ur = max(max(abs(theta - theta_old)));
+    it_ur = it_ur + 1;
+    theta_old = theta;
+<span class="keyword">end</span>
+
+fprintf(<span class="string">'No. of iterations in Gauss-Seidel Method with UR: %d\n'</span>, it_ur);
+
+
+<span class="comment">% We are sweeping in the x direction</span>
+<span class="comment">% Assume two known in y-direction</span>
+<span class="comment">% Use Line by Line Gauss Seidel to solve the generated tridiagonal matrix</span>
+<span class="comment">% Initializing the grid of temperature</span>
+T_ll = zeros(nx, ny);
+
+<span class="comment">% Initializing Dirichlet boundary conditions</span>
+T_ll(nx, :) = 0;
+T_ll(:, ny) = 0;
+T_ll_old = T_ll;
+
+iterations = 0;
+Error = 1;
+
+<span class="keyword">while</span> Error &gt; Tolerance
+    <span class="keyword">for</span> i = 2:nx-1
+        <span class="comment">% Using TDMA</span>
+        T_tdma = zeros(ny, 1);
+        T_tdma(ny) = 0;
+
+        P = zeros(ny, 1);
+        Q = zeros(ny, 1);
+
+        a = 2 * (1 + beta^2);
+        b = 1;
+        c = 1;
+
+        P(1) = 1;
+        Q(1) = 0;
+        d = zeros(ny, 1);
+
+        <span class="keyword">for</span> k = 1:ny
+            d(k) = dx^2 + beta^2 * T_ll(i-1, k) + beta^2 * T_ll(i+1, k);
+        <span class="keyword">end</span>
+
+        <span class="keyword">for</span> j = 2:ny-1
+            P(j) = b / (a - c * P(j-1));
+            Q(j) = (d(j) + c * Q(j-1)) / (a - c * P(j-1));
+        <span class="keyword">end</span>
+
+        Q(ny) = T_tdma(ny);
+
+        <span class="keyword">for</span> j = ny-1:-1:1
+            T_tdma(j) = T_tdma(j+1) * P(j) + Q(j);
+        <span class="keyword">end</span>
+
+        T_ll(i, :) = T_tdma';
+    <span class="keyword">end</span>
+
+    <span class="comment">% Initializing Neumann boundary conditions</span>
+    T_ll(1, :) = T_ll(2, :);
+
+    Error = max(max(abs(T_ll - T_ll_old)));
+    iterations = iterations + 1;
+    T_ll_old = T_ll;
+<span class="keyword">end</span>
+
+disp([<span class="string">'No. of iterations in Line by Line Gauss-Seidel Method: '</span>, num2str(iterations)]);
+
+<span class="comment">% center line plot</span>
+grid_points = [10,20,30,40,50];
+figure;
+hold <span class="string">on</span>;
+
+<span class="keyword">for</span> gp = grid_points
+    T_plot = gauss_siedel(gp);
+    T_mid_x = T_plot(round(gp/2), :);
+    x_t = linspace(0, L, gp);
+
+    plot(x_t, T_mid_x, <span class="string">'DisplayName'</span>, sprintf(<span class="string">'Grid Size: %.6f'</span>, x_t(2) - x_t(1)));
+<span class="keyword">end</span>
+
+hold <span class="string">off</span>;
+xlabel(<span class="string">'Length along X'</span>);
+ylabel(<span class="string">'Temperature'</span>);
+title(<span class="string">'Grid Independence Test'</span>);
+legend;
+
+figure;
+hold <span class="string">on</span>;
+<span class="keyword">for</span> gp = grid_points
+    T_plot = gauss_siedel(gp);
+    T_mid_y = T_plot(:,round(gp/2));
+    x_t = linspace(0, L, gp);
+
+    plot(x_t, T_mid_y, <span class="string">'DisplayName'</span>, sprintf(<span class="string">'Grid Size: %.6f'</span>, x_t(2) - x_t(1)));
+<span class="keyword">end</span>
+
+hold <span class="string">off</span>;
+xlabel(<span class="string">'Length along Y'</span>);
+ylabel(<span class="string">'Temperature'</span>);
+title(<span class="string">'Grid Independence Test'</span>);
+legend;
+
+
+<span class="keyword">function</span> T_gs = gauss_siedel(n)
+    T_gs = zeros(n, n);
+    dx = 1 / (n - 1);
+    dy = 1 / (n- 1);
+    beta = dx / dy;
+
+    <span class="comment">% Initializing Dirichlet boundary conditions</span>
+    T_gs(n, :) = 0;
+    T_gs(:, n) = 0;
+
+    T_gs_old = T_gs;
+
+    <span class="comment">% To keep track of the number of iterations</span>
+    iterations = 0;
+    Error = 2;
+    Tolerance = 1e-4;
+    <span class="keyword">while</span> Error &gt; Tolerance
+        <span class="keyword">for</span> i = 2:n-1
+            <span class="keyword">for</span> j = 2:n-1
+                T_gs(i, j) = 0.5 * (dx^2 + T_gs_old(i+1, j) + T_gs(i-1, j) + beta^2 * T_gs_old(i, j+1) + beta^2* T_gs(i, j-1)) / (1 + beta^2);
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+
+        <span class="comment">% Initializing Neumann boundary conditions</span>
+        T_gs(2:end, 1) = T_gs(2:end, 2);
+        T_gs(1, 1:n-1) = T_gs(2, 1:n-1);
+
+        Error = max(max(abs(T_gs - T_gs_old)));
+        iterations = iterations + 1;
+        T_gs_old = T_gs;
+    <span class="keyword">end</span>
+
+    fprintf(<span class="string">'Grid Size: %.6f, Iterations: %d\n'</span>, dx, iterations);
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">No. of iterations in Gauss-Seidel Method: 805
+No. of iterations in Gauss-Seidel Method with SOR: 225
+No. of iterations in Gauss-Seidel Method with UR: 1128
+No. of iterations in Line by Line Gauss-Seidel Method: 530
+Grid Size: 0.111111, Iterations: 151
+Grid Size: 0.052632, Iterations: 457
+Grid Size: 0.034483, Iterations: 775
+Grid Size: 0.025641, Iterations: 1035
+Grid Size: 0.020408, Iterations: 1184
+Grid Size: 0.111111, Iterations: 151
+Grid Size: 0.052632, Iterations: 457
+Grid Size: 0.034483, Iterations: 775
+Grid Size: 0.025641, Iterations: 1035
+Grid Size: 0.020408, Iterations: 1184
+</pre><img vspace="5" hspace="5" src="CFD_Assign2_01.png" alt=""> <img vspace="5" hspace="5" src="CFD_Assign2_02.png" alt=""> <img vspace="5" hspace="5" src="CFD_Assign2_03.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% Abhishek Ghosh
+% ME21BTECH11001
+
+% Given parameters
+L = 1;
+nx = 31;
+ny = 31;
+
+x = linspace(0, L, nx);
+y = linspace(0, L, ny);
+
+dx = x(2) - x(1);
+dy = y(2) - y(1);
+beta = dx / dy;
+Tolerance = 1e-4;
+
+% Gauss Siedel Method
+
+% Coefficient Matrix
+theta = zeros(nx, ny);
+theta_old = theta;
+
+theta(nx, :) = 0;
+theta(:, ny) = 0;
+
+it_gs = 0;
+err_gs = 1;
+tol_gs = 1e-4;
+
+while err_gs > tol_gs
+    for i = 2:nx-1
+        for j = 2:ny-1
+            theta(i, j) = 0.5 * (dx^2 + theta_old(i+1,j) + theta(i-1, j) + beta^2*theta_old(i, j+1) + beta^2*theta(i, j-1)) / (1 + beta^2);
+        end
+    end
+
+    theta(2:end, 1) = theta(2:end, 2);
+    theta(1, 1:end-1) = theta(2, 1:end-1);
+
+    err_gs = max(max(abs(theta - theta_old)));
+    it_gs = it_gs + 1;
+    theta_old = theta;
+end
+
+fprintf('No. of iterations in Gauss-Seidel Method: %d\n', it_gs);
+
+[X_gs, Y_gs] = meshgrid(x, y);
+
+figure;
+contourf(X_gs, Y_gs, theta, 20, 'LineColor', 'none');
+colorbar();
+title('Steady-State Temp Distribution in Square Slab (Contour Plot) - Gauss Seidel');
+xlabel('Along X');
+ylabel('Along Y');
+axis equal;
+axis tight;
+
+% Gauss Siedel with Successive Over-Relaxation (SOR)
+theta = zeros(nx, ny);
+theta_old = theta;
+
+theta(1, :) = 0;
+theta(:, ny) = 0;
+
+it_sor = 0;
+err_sor = 1;
+tol_sor = 1e-4;
+alpha_sor = 1.8;
+
+while err_sor > tol_sor
+    for i = 2:nx-1
+        for j = 2:ny-1
+            theta(i, j) = (1 - alpha_sor)*theta_old(i,j) + (alpha_sor*0.5*(dx^2 + theta_old(i+1,j) + theta(i-1, j) + (beta^2)*theta_old(i, j+1) + (beta^2)*theta(i, j-1))) / (1 + beta^2);
+        end
+    end
+
+    theta(2:end, 1) = theta(2:end, 2);
+    theta(1, 1:end-1) = theta(2, 1:end-1);
+
+    err_sor = max(max(abs(theta - theta_old)));
+    it_sor = it_sor + 1;
+    theta_old = theta;
+end
+
+fprintf('No. of iterations in Gauss-Seidel Method with SOR: %d\n', it_sor);
+
+
+% Gauss Siedel with Under-Relaxation (UR)
+theta = zeros(nx, ny);
+theta_old = theta;
+
+theta(1, :) = 0;
+theta(:, ny) = 0;
+
+it_ur = 0;
+err_ur = 1;
+tol_ur = 1e-4;
+alpha_ur = 0.6;
+
+while err_ur > tol_ur
+    for i = 2:nx-1
+        for j = 2:ny-1
+            theta(i, j) = (1 - alpha_ur)*theta_old(i,j) + (alpha_ur*0.5*(dx^2 + theta_old(i+1,j) + theta(i-1, j) + (beta^2)*theta_old(i, j+1) + (beta^2)*theta(i, j-1))) / (1 + beta^2);
+        end
+    end
+
+    theta(2:end, 1) = theta(2:end, 2);
+    theta(1, 1:end-1) = theta(2, 1:end-1);
+
+    err_ur = max(max(abs(theta - theta_old)));
+    it_ur = it_ur + 1;
+    theta_old = theta;
+end
+
+fprintf('No. of iterations in Gauss-Seidel Method with UR: %d\n', it_ur);
+
+
+% We are sweeping in the x direction
+% Assume two known in y-direction 
+% Use Line by Line Gauss Seidel to solve the generated tridiagonal matrix
+% Initializing the grid of temperature
+T_ll = zeros(nx, ny);
+
+% Initializing Dirichlet boundary conditions
+T_ll(nx, :) = 0;
+T_ll(:, ny) = 0;
+T_ll_old = T_ll;
+
+iterations = 0;
+Error = 1;
+
+while Error > Tolerance
+    for i = 2:nx-1
+        % Using TDMA
+        T_tdma = zeros(ny, 1);
+        T_tdma(ny) = 0;
+
+        P = zeros(ny, 1);
+        Q = zeros(ny, 1);
+
+        a = 2 * (1 + beta^2);
+        b = 1;
+        c = 1;
+
+        P(1) = 1;
+        Q(1) = 0;
+        d = zeros(ny, 1);
+
+        for k = 1:ny
+            d(k) = dx^2 + beta^2 * T_ll(i-1, k) + beta^2 * T_ll(i+1, k);
+        end
+
+        for j = 2:ny-1
+            P(j) = b / (a - c * P(j-1));
+            Q(j) = (d(j) + c * Q(j-1)) / (a - c * P(j-1));
+        end
+
+        Q(ny) = T_tdma(ny);
+
+        for j = ny-1:-1:1
+            T_tdma(j) = T_tdma(j+1) * P(j) + Q(j);
+        end
+
+        T_ll(i, :) = T_tdma';
+    end
+
+    % Initializing Neumann boundary conditions
+    T_ll(1, :) = T_ll(2, :);
+
+    Error = max(max(abs(T_ll - T_ll_old)));
+    iterations = iterations + 1;
+    T_ll_old = T_ll;
+end
+
+disp(['No. of iterations in Line by Line Gauss-Seidel Method: ', num2str(iterations)]);
+
+% center line plot
+grid_points = [10,20,30,40,50];
+figure;
+hold on;
+
+for gp = grid_points
+    T_plot = gauss_siedel(gp);
+    T_mid_x = T_plot(round(gp/2), :);
+    x_t = linspace(0, L, gp);
+    
+    plot(x_t, T_mid_x, 'DisplayName', sprintf('Grid Size: %.6f', x_t(2) - x_t(1)));
+end
+
+hold off;
+xlabel('Length along X');
+ylabel('Temperature');
+title('Grid Independence Test');
+legend;
+
+figure;
+hold on;
+for gp = grid_points
+    T_plot = gauss_siedel(gp);
+    T_mid_y = T_plot(:,round(gp/2));
+    x_t = linspace(0, L, gp);
+    
+    plot(x_t, T_mid_y, 'DisplayName', sprintf('Grid Size: %.6f', x_t(2) - x_t(1)));
+end
+
+hold off;
+xlabel('Length along Y');
+ylabel('Temperature');
+title('Grid Independence Test');
+legend;
+
+
+function T_gs = gauss_siedel(n)
+    T_gs = zeros(n, n);
+    dx = 1 / (n - 1);
+    dy = 1 / (n- 1);
+    beta = dx / dy;
+    
+    % Initializing Dirichlet boundary conditions
+    T_gs(n, :) = 0;
+    T_gs(:, n) = 0;
+    
+    T_gs_old = T_gs;
+    
+    % To keep track of the number of iterations
+    iterations = 0;
+    Error = 2;
+    Tolerance = 1e-4;
+    while Error > Tolerance
+        for i = 2:n-1
+            for j = 2:n-1
+                T_gs(i, j) = 0.5 * (dx^2 + T_gs_old(i+1, j) + T_gs(i-1, j) + beta^2 * T_gs_old(i, j+1) + beta^2* T_gs(i, j-1)) / (1 + beta^2);
+            end
+        end
+        
+        % Initializing Neumann boundary conditions
+        T_gs(2:end, 1) = T_gs(2:end, 2);
+        T_gs(1, 1:n-1) = T_gs(2, 1:n-1);
+        
+        Error = max(max(abs(T_gs - T_gs_old)));
+        iterations = iterations + 1;
+        T_gs_old = T_gs;
+    end
+    
+    fprintf('Grid Size: %.6f, Iterations: %d\n', dx, iterations);
+end
+
+
+
+##### SOURCE END #####
+--></body></html>

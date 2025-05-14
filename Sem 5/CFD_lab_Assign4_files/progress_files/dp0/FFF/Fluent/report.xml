@@ -1,0 +1,250 @@
+<FluentXMLReport>
+<version>
+Fluent
+Version: 2d, dp, pbns, vof, lam, transient (2d, double precision, pressure-based, VOF, laminar, transient)
+Release: 23.2.0
+Title: 
+</version>
+
+<Models>
+
+Models
+------
+
+   Model                        Settings                       
+   ---------------------------------------------------------
+   Space                        2D                             
+   Time                         Unsteady, 1st-Order Implicit   
+   Viscous                      Laminar                        
+   Heat Transfer                Disabled                       
+   Solidification and Melting   Disabled                       
+   Species                      Disabled                       
+   Coupled Dispersed Phase      Disabled                       
+   NOx Pollutants               Disabled                       
+   SOx Pollutants               Disabled                       
+   Soot                         Disabled                       
+   Mercury Pollutants           Disabled                       
+   Structure                    Disabled                       
+   Acoustics                    Disabled                       
+   Eulerian Wall Film           Disabled                       
+   Potential/Electrochemistry   Disabled                       
+   Multiphase                   Volume of Fluid                
+
+</Models>
+
+<MaterialProperties>
+Material Properties
+-------------------
+
+   Material: platelets (fluid)
+
+      Property               Units      Method     Value(s)   
+      -----------------------------------------------------
+      Density                kg/m^3     constant   1125       
+      Cp (Specific Heat)     J/(kg K)   constant   1006.43    
+      Thermal Conductivity   W/(m K)    constant   0.0242     
+      Viscosity              kg/(m s)   constant   0.01       
+      Molecular Weight       kg/kmol    constant   28.966     
+
+   Material: plasma (fluid)
+
+      Property               Units      Method     Value(s)   
+      -----------------------------------------------------
+      Density                kg/m^3     constant   1000       
+      Cp (Specific Heat)     J/(kg K)   constant   1006.43    
+      Thermal Conductivity   W/(m K)    constant   0.0242     
+      Viscosity              kg/(m s)   constant   0.0001     
+      Molecular Weight       kg/kmol    constant   28.966     
+
+   Material: air (fluid)
+
+      Property               Units      Method     Value(s)   
+      -----------------------------------------------------
+      Density                kg/m^3     constant   1          
+      Cp (Specific Heat)     J/(kg K)   constant   1006.43    
+      Thermal Conductivity   W/(m K)    constant   0.0242     
+      Viscosity              kg/(m s)   constant   1.5e-05    
+      Molecular Weight       kg/kmol    constant   28.966     
+
+   Material: aluminum (solid)
+
+      Property               Units      Method     Value(s)   
+      -----------------------------------------------------
+      Density                kg/m^3     constant   2719       
+      Cp (Specific Heat)     J/(kg K)   constant   871        
+      Thermal Conductivity   W/(m K)    constant   202.4      
+
+</MaterialProperties>
+
+<CellZoneConditions>
+Cell Zone Conditions
+--------------------
+
+   Zones
+
+      name                       id   type    
+      -------------------------------------
+      surface_body (mixture)     2    fluid   
+      surface_body (air)         2    fluid   
+      surface_body (plasma)      2    fluid   
+      surface_body (platelets)   2    fluid   
+
+   Setup Conditions
+
+      surface_body (mixture)
+
+         Condition               Value                                                                                    
+         --------------------------------------------------------------------------------------------------------------
+         Specify source terms?   yes                                                                                      
+         Source Terms            ((x-momentum ((profile udf xmom_source) (inactive . #f) (constant . 0))) (y-momentum))   
+         Frame Motion?           yes                                                                                      
+         Mesh Motion?            no                                                                                       
+
+      surface_body (air)
+
+         Condition   Value   
+         -----------------
+
+      surface_body (plasma)
+
+         Condition   Value   
+         -----------------
+
+      surface_body (platelets)
+
+         Condition   Value   
+         -----------------
+
+</CellZoneConditions>
+
+<BoundaryConditions>
+Boundary Conditions
+-------------------
+
+   Zones
+
+      name                id   type              
+      ----------------------------------------
+      top (mixture)       5    pressure-outlet   
+      top (air)           5    pressure-outlet   
+      top (plasma)        5    pressure-outlet   
+      top (platelets)     5    pressure-outlet   
+      walls (mixture)     6    wall              
+      walls (air)         6    wall              
+      walls (plasma)      6    wall              
+      walls (platelets)   6    wall              
+
+   Setup Conditions
+
+      top (mixture)
+
+         Condition   Value   
+         -----------------
+
+      top (air)
+
+         Condition   Value   
+         -----------------
+
+      top (plasma)
+
+         Condition   Value   
+         -----------------
+
+      top (platelets)
+
+         Condition   Value   
+         -----------------
+
+      walls (mixture)
+
+         Condition                  Value             
+         ------------------------------------------
+         Wall Motion                Stationary Wall   
+         Shear Boundary Condition   No Slip           
+
+      walls (air)
+
+         Condition   Value   
+         -----------------
+
+      walls (plasma)
+
+         Condition   Value   
+         -----------------
+
+      walls (platelets)
+
+         Condition   Value   
+         -----------------
+
+</BoundaryConditions>
+
+<SolverSettings>
+Solver Settings
+---------------
+
+   Equations
+
+      Equation          Solved   
+      ------------------------
+      Flow              yes      
+      Volume Fraction   yes      
+
+   Numerics
+
+      Numeric                         Enabled   
+      ---------------------------------------
+      Absolute Velocity Formulation   yes       
+
+   Unsteady Calculation Parameters
+
+                                         
+      --------------------------------
+      Number of Time Steps       1       
+      Time Step Size [s]         1e-05   
+      Max Iterations/Time Step   20      
+
+   Under-Relaxation Factors
+
+      Variable      Relaxation Factor   
+      -------------------------------
+      Pressure      0.3                 
+      Density       1                   
+      Body Forces   1                   
+      Momentum      0.7                 
+
+   Linear Solver
+
+      Variable     Solver Type   Termination Criterion   Residual Reduction Tolerance   
+      -------------------------------------------------------------------------------
+      Pressure     V-Cycle       0.1                                                    
+      X-Momentum   Flexible      0.1                     0.7                            
+      Y-Momentum   Flexible      0.1                     0.7                            
+
+   Pressure-Velocity Coupling
+
+      Parameter   Value    
+      ------------------
+      Type        SIMPLE   
+
+   Discretization Scheme
+
+      Variable          Scheme                
+      -------------------------------------
+      Pressure          PRESTO!               
+      Momentum          Second Order Upwind   
+      Volume Fraction   Geo-Reconstruct       
+
+   Solution Limits
+
+      Quantity                         Limit   
+      --------------------------------------
+      Minimum Absolute Pressure [Pa]   1       
+      Maximum Absolute Pressure [Pa]   5e+10   
+      Minimum Static Temperature [K]   1       
+      Maximum Static Temperature [K]   5000    
+
+</SolverSettings>
+
+</FluentXMLReport>
